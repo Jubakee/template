@@ -34,25 +34,25 @@
 
         .counter-container {
             display: flex;
-            align-items: center; /* Center items vertically */
-            justify-content: center; /* Center items horizontally */
-            border: 2px solid white; /* Border around the counter */
-            border-radius: 10px; /* Rounded corners */
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
             margin-top: 16px;
         }
 
         #counter-icon {
-            width: 72px; /* Size of the counter icon */
+            width: 64px;
             margin-bottom: 8px;
             margin-left: 8px;
         }
 
         .counter-value {
-            font-size: 32px; /* Font size for the counter */
-            color: white; /* Set text color to white */
-            line-height: 1; /* Ensure no extra spacing */
-            transition: transform 0.3s; /* Add transition for animation */
+            font-size: 32px;
+            color: white;
+            line-height: 1;
+            transition: transform 0.3s; /* Add transition for scaling effect */
             margin-right: 16px;
         }
 
@@ -67,14 +67,15 @@
             justify-content: center;
             align-items: center;
             flex-grow: 1;
+            position: relative;
         }
 
-        #feedback {
+        .feedback {
             position: absolute;
             font-size: 32px;
             font-weight: bold;
             color: white;
-            opacity: 0;
+            opacity: 1;
             transition: opacity 1s, transform 0.5s;
             pointer-events: none;
         }
@@ -141,7 +142,6 @@
                 <img width="360" src="./assets/cabbage_1.png" alt="logo of telegram web apps">
             </button>
         </div>
-        <div id="feedback">+1</div>
     </main>
 
     <footer>
@@ -183,11 +183,17 @@
         }
 
         function imageClicked(event) {
-            const touchCount = event.touches ? event.touches.length : 1;
+            event.preventDefault(); // Prevent default behavior to stop page minimization
+            const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
+            const touchCount = touches.length;
+
             count += touchCount; // Increment count based on the number of touches
             const countElement = document.getElementById('count');
             countElement.innerText = count;
             saveCounter();
+
+            // Animate the counter value
+            animateCounter(countElement);
 
             const audio = new Audio('./assets/click-sound.mp3');
             audio.play();
@@ -198,23 +204,37 @@
                 cabbageImage.classList.remove('clicked');
             }, 300);
 
-            const feedback = document.getElementById('feedback');
-            feedback.innerText = `+${touchCount}`; // Show how many were clicked
+            // Create feedback for each touch
+            for (let i = 0; i < touchCount; i++) {
+                const x = touches[i].clientX;
+                const y = touches[i].clientY;
+                createFeedback(x, y);
+            }
+        }
 
-            const x = event.touches ? event.touches[0].clientX : event.clientX;
-            const y = event.touches ? event.touches[0].clientY : event.clientY;
-            feedback.style.left = `${x}px`;
-            feedback.style.top = `${y - 30}px`;
-            feedback.style.opacity = 1;
-            setTimeout(() => {
-                feedback.style.opacity = 0;
-            }, 1000);
-
-            // Animate counter value
+        function animateCounter(countElement) {
             countElement.style.transform = 'scale(1.2)'; // Scale up
             setTimeout(() => {
                 countElement.style.transform = 'scale(1)'; // Scale back down
             }, 300); // Duration of the scale effect
+        }
+
+        function createFeedback(x, y) {
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback';
+            feedback.innerText = '+1';
+            feedback.style.left = `${x}px`;
+            feedback.style.top = `${y - 30}px`;
+            document.body.appendChild(feedback);
+
+            // Fade out effect
+            setTimeout(() => {
+                feedback.style.opacity = 0;
+            }, 1000);
+            // Remove feedback element after animation
+            setTimeout(() => {
+                feedback.remove();
+            }, 1500);
         }
 
         function showTab(tabId) {
