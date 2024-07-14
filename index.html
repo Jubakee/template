@@ -7,8 +7,8 @@
     <title>Kimchi Kingdom</title>
     <style>
         body {
-            background-color: #00000D; /* Set background to dark */
-            color: white; /* Change text color to white for visibility */
+            background-color: #00000D;
+            color: white;
             font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
             margin: 0;
             padding: 0;
@@ -16,65 +16,74 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Center items vertically */
+            justify-content: center;
             text-align: center;
         }
 
         main {
-            flex-grow: 1; /* Allow main to grow and take available space */
-            display: none; /* Hide initially */
-            flex-direction: column; /* Stack elements vertically */
-            justify-content: flex-start; /* Align contents at the top */
-            align-items: center; /* Center contents horizontally */
+            flex-grow: 1;
+            display: none;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
         }
 
         .active {
-            display: flex; /* Show active page */
+            display: flex;
         }
 
         #header {
             display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
+            justify-content: center;
+            align-items: center;
         }
 
-        #counter-header {
+        .counter-container {
             display: flex;
-            align-items: center; /* Center icon and text vertically */
+            align-items: center; /* Center items vertically */
+            justify-content: center; /* Center items horizontally */
+            border: 2px solid white; /* Border around the counter */
+            border-radius: 10px; /* Rounded corners */
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+            margin-top: 16px;
         }
 
         #counter-icon {
             width: 72px; /* Size of the counter icon */
+            margin-bottom: 8px;
+            margin-left: 8px;
         }
 
         .counter-value {
-            font-size: 32px; /* Adjust font size for better visibility */
+            font-size: 32px; /* Font size for the counter */
             color: white; /* Set text color to white */
-            margin-top: 12px;
+            line-height: 1; /* Ensure no extra spacing */
+            transition: transform 0.3s; /* Add transition for animation */
+            margin-right: 16px;
         }
 
         #clickable-image {
-            border: none; /* Remove any border */
-            background: none; /* Remove background */
-            padding: 0; /* Remove padding */
+            border: none;
+            background: none;
+            padding: 0;
         }
 
         #image-container {
             display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            flex-grow: 1; /* Allow it to grow and center vertically */
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
         }
 
         #feedback {
-        position: absolute;
-        font-size: 32px; /* Make it bigger */
-        font-weight: bold; /* Make it bold */
-        color: white; /* Change color to white */
-        opacity: 0; /* Start hidden */
-        transition: opacity 1s, transform 0.5s; /* Fade and movement effect */
-        pointer-events: none; /* Prevent feedback from blocking clicks */
-    }
+            position: absolute;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            opacity: 0;
+            transition: opacity 1s, transform 0.5s;
+            pointer-events: none;
+        }
 
         @keyframes cabbage-click {
             0% { transform: scale(1); }
@@ -89,8 +98,8 @@
         footer {
             display: flex;
             justify-content: space-around;
-            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
-            padding: 10px 0; /* Vertical padding */
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 0;
             position: relative;
             bottom: 0;
             width: 100%;
@@ -100,26 +109,26 @@
             cursor: pointer;
             flex: 1;
             text-align: center;
-            padding: 10px; /* Add padding for touch targets */
-            margin: 0px 10px; /* Add margin to each tab */
-            border-radius: 10px; /* Rounded corners */
-            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+            padding: 10px;
+            margin: 0px 10px;
+            border-radius: 10px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .tab img {
-            width: 32px; /* Increased icon size */
-            margin-bottom: 5px; /* Space below icon */
-            border: none; /* Remove border */
+            width: 32px;
+            margin-bottom: 5px;
+            border: none;
         }
 
         .tab span {
-            font-size: 12px; /* Larger text size */
-            display: block; /* Stack text below icon */
+            font-size: 12px;
+            display: block;
         }
 
         .active-tab {
-            background-color: green; /* Highlight color for active tab */
-            border-radius: 5px; /* Rounded corners */
+            background-color: green;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -127,35 +136,18 @@
 <body>
     <main id="tab1" class="active">
         <div id="header">
-            <div id="counter-header">
+            <div class="counter-container">
                 <img src="./assets/cabbagecoin.png" alt="image" id="counter-icon">
                 <span id="count" class="counter-value">0</span>
             </div>
         </div>
+        
         <div id="image-container">
             <button id="clickable-image" onclick="imageClicked(event);">
                 <img width="360" src="./assets/cabbage_1.png" alt="logo of telegram web apps">
             </button>
         </div>
-        <div id="feedback">+1</div> <!-- Feedback text -->
-    </main>
-
-    <main id="tab2">
-        <div>
-            <p>This is the content for Tab 2.</p>
-        </div>
-    </main>
-
-    <main id="tab3">
-        <div>
-            <p>This is the content for Tab 3.</p>
-        </div>
-    </main>
-
-    <main id="tab4">
-        <div>
-            <p>This is the content for Tab 4.</p>
-        </div>
+        <div id="feedback">+1</div>
     </main>
 
     <footer>
@@ -177,18 +169,13 @@
         </div>
     </footer>
 
-    <div id="viewport"></div>
-    <div id="viewport-params-size"></div>
-    <div id="viewport-params-expand"></div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        // Init TWA
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
 
         let count = 0;
 
-        // Load counter from localStorage when the page loads
         function loadCounter() {
             const savedCount = localStorage.getItem('kimchiCounter');
             if (savedCount) {
@@ -197,77 +184,58 @@
             }
         }
 
-        // Save counter to localStorage
         function saveCounter() {
             localStorage.setItem('kimchiCounter', count);
         }
 
-// Increment counter and save it
-function imageClicked(event) {
-        count++;
-        document.getElementById('count').innerText = count;
-        saveCounter(); // Save updated count
+        function imageClicked(event) {
+            count++;
+            const countElement = document.getElementById('count');
+            countElement.innerText = count;
+            saveCounter();
 
-        // Play sound
-        const audio = new Audio('./assets/click-sound.mp3'); // Replace with your sound file
-        audio.play();
+            const audio = new Audio('./assets/click-sound.mp3');
+            audio.play();
 
-        // Add click effect
-        const cabbageImage = document.querySelector('#clickable-image img');
-        cabbageImage.classList.add('clicked');
-        setTimeout(() => {
-            cabbageImage.classList.remove('clicked');
-        }, 300); // Remove effect after animation
+            const cabbageImage = document.querySelector('#clickable-image img');
+            cabbageImage.classList.add('clicked');
+            setTimeout(() => {
+                cabbageImage.classList.remove('clicked');
+            }, 300);
 
-        // Show feedback at click position
-        const feedback = document.getElementById('feedback');
-        feedback.innerText = '+1';
+            const feedback = document.getElementById('feedback');
+            feedback.innerText = '+1';
 
-        // Get click position
-        const x = event.clientX; // X coordinate of click
-        const y = event.clientY; // Y coordinate of click
-        feedback.style.left = `${x}px`;
-        feedback.style.top = `${y - 30}px`; // Offset slightly above the touch
+            const x = event.clientX;
+            const y = event.clientY;
+            feedback.style.left = `${x}px`;
+            feedback.style.top = `${y - 30}px`;
+            feedback.style.opacity = 1;
+            setTimeout(() => {
+                feedback.style.opacity = 0;
+            }, 1000);
 
-        feedback.style.opacity = 1; // Show the feedback
-        setTimeout(() => {
-            feedback.style.opacity = 0; // Fade out after 1 second
-        }, 1000); // Show for 1 second
-    }
-
-
+            // Animate counter value
+            countElement.style.transform = 'scale(1.2)'; // Scale up
+            setTimeout(() => {
+                countElement.style.transform = 'scale(1)'; // Scale back down
+            }, 300); // Duration of the scale effect
+        }
 
         function showTab(tabId) {
-            // Hide all tabs
             document.querySelectorAll('main').forEach(tab => {
                 tab.classList.remove('active');
             });
-            // Remove active-tab class from all buttons
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active-tab');
             });
-            // Show the selected tab
             document.getElementById(tabId).classList.add('active');
-            // Add active-tab class to the clicked button
             document.getElementById(tabId + '-btn').classList.add('active-tab');
         }
 
-        // Call loadCounter on page load
         window.onload = loadCounter;
 
-        function setViewportData() {
-            var sizeEl = document.getElementById('viewport-params-size');
-            var expandEl = document.querySelector('#viewport-params-expand');
-        }
-
         Telegram.WebApp.setHeaderColor('secondary_bg_color');
-
-        setViewportData();
-        Telegram.WebApp.onEvent('viewportChanged', setViewportData);
-
-        Telegram.WebApp.onEvent('themeChanged', function() {
-            document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
-        });
     </script>
 </body>
 </html>
