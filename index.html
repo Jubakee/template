@@ -115,9 +115,21 @@
         }
 
         #header {
-    margin-top: 8px; /* Adjust this value */
-}
+            margin-top: 8px; /* Adjust this value */
+        }
 
+        #energy-bar-container {
+            margin-bottom: 32px;
+            text-align: center;
+            width: 75%;
+        }
+
+        #energy-fill {
+            transition: width 0.3s; /* Smooth transition */
+            height: 100%;
+            background-color: green;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -137,6 +149,13 @@
         </div>
     </main>
 
+    <div id="energy-bar-container">
+        <div id="energy-bar" style="width: 100%; background-color: green; height: 20px; border-radius: 5px;">
+            <div id="energy-fill" style="width: 100%;"></div>
+        </div>
+        <span id="energy-value">Clicks: 5000</span>
+    </div>
+    
     <footer>
         <div class="tab active-tab" onclick="showTab('tab1');" id="tab1-btn">
             <img src="./assets/icon1.png" alt="image">
@@ -162,6 +181,10 @@
         Telegram.WebApp.expand();
 
         let count = 0;
+        let energy = 5000; // Starting energy value
+        const maxEnergy = 5000; // Maximum energy value
+        const energyRechargeRate = 1; // Energy recharge rate
+        const rechargeInterval = 3000; // Recharge every 3 seconds
 
         function loadCounter() {
             const savedCount = localStorage.getItem('kimchiCounter');
@@ -169,6 +192,7 @@
                 count = parseInt(savedCount, 10);
                 document.getElementById('count').innerText = count;
             }
+            updateEnergyBar(); // Initialize energy bar display
         }
 
         function saveCounter() {
@@ -176,40 +200,50 @@
         }
 
         function imageClicked(event) {
-    event.preventDefault(); // Prevent default behavior
-    const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
-    const touchCount = touches.length;
+            event.preventDefault(); // Prevent default behavior
+            const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
+            const touchCount = touches.length;
 
-    count += touchCount; // Increment count based on the number of touches
-    const countElement = document.getElementById('count');
-    countElement.innerText = count;
-    saveCounter();
+            if (energy <= 0) {
+                alert("Not enough clicks to click the cabbage!");
+                return; // Prevent clicking if energy is 0
+            }
 
-    // Animate the counter value
-    animateCounter(countElement);
+            count += touchCount; // Increment count based on the number of touches
+            energy -= touchCount; // Reduce energy with each click
+            if (energy < 0) {
+                energy = 0; // Prevent negative energy
+            }
 
-    const audio = new Audio('./assets/click-sound.mp3');
-    audio.play();
+            const countElement = document.getElementById('count');
+            countElement.innerText = count;
+            saveCounter();
+            updateEnergyBar(); // Update energy bar display
 
-    // Vibration effect for mobile devices
-    if (navigator.vibrate) {
-        navigator.vibrate(100); // Vibrate for 100 milliseconds
-    }
+            // Animate the counter value
+            animateCounter(countElement);
 
-    const cabbageImage = document.querySelector('#clickable-image img');
-    cabbageImage.classList.add('clicked');
-    setTimeout(() => {
-        cabbageImage.classList.remove('clicked');
-    }, 300);
+            const audio = new Audio('./assets/click-sound.mp3');
+            audio.play();
 
-    // Create feedback for each touch
-    for (let i = 0; i < touchCount; i++) {
-        const x = touches[i].clientX;
-        const y = touches[i].clientY;
-        createFeedback(x, y);
-    }
-}
+            // Vibration effect for mobile devices
+            if (navigator.vibrate) {
+                navigator.vibrate(100); // Vibrate for 100 milliseconds
+            }
 
+            const cabbageImage = document.querySelector('#clickable-image img');
+            cabbageImage.classList.add('clicked');
+            setTimeout(() => {
+                cabbageImage.classList.remove('clicked');
+            }, 300);
+
+            // Create feedback for each touch
+            for (let i = 0; i < touchCount; i++) {
+                const x = touches[i].clientX;
+                const y = touches[i].clientY;
+                createFeedback(x, y);
+            }
+        }
 
         function animateCounter(countElement) {
             countElement.style.transform = 'scale(1.2)'; // Scale up
@@ -235,6 +269,25 @@
                 feedback.remove();
             }, 600); // Adjusted total display time
         }
+
+        function updateEnergyBar() {
+            const energyFill = document.getElementById('energy-fill');
+            const energyValue = document.getElementById('energy-value');
+            energyFill.style.width = `${(energy / maxEnergy) * 100}%`;
+            energyValue.innerText = `Clicks: ${energy}`;
+        }
+
+        function rechargeEnergy() {
+            if (energy < maxEnergy) {
+                energy += energyRechargeRate;
+                if (energy > maxEnergy) {
+                    energy = maxEnergy; // Cap energy at max
+                }
+                updateEnergyBar();
+            }
+        }
+
+        setInterval(rechargeEnergy, rechargeInterval);
 
         function showTab(tabId) {
             document.querySelectorAll('main').forEach(tab => {
