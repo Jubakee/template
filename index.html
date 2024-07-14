@@ -32,27 +32,16 @@
             display: flex;
         }
 
-        .counter-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            margin-top: 16px;
-            padding: 10px;
-        }
-
         #counter-icon {
-            width: 48px;
+            width: 48px; /* Change this value to adjust icon size */
         }
 
         .counter-value {
-            font-size: 18px;
+            font-size: 24px;
             color: white;
             line-height: 1;
             transition: transform 0.3s;
-            margin-right: 6px;
+            margin-top: 6px; /* Adjust margin for spacing */
         }
 
         #clickable-image {
@@ -75,7 +64,7 @@
             font-weight: bold;
             color: white;
             opacity: 1;
-            transition: opacity 0.5s, transform 0.5s;
+            transition: opacity 0.3s, transform 0.5s; /* Reduced fade duration */
             pointer-events: none;
         }
 
@@ -124,13 +113,18 @@
             background-color: green;
             border-radius: 5px;
         }
+
+        #header {
+    margin-top: 8px; /* Adjust this value */
+}
+
     </style>
 </head>
 
 <body>
     <main id="tab1" class="active">
         <div id="header">
-            <div class="counter-container">
+            <div style="display: flex; align-items: center;">
                 <img src="./assets/cabbagecoin.png" alt="image" id="counter-icon">
                 <span id="count" class="counter-value">0</span>
             </div>
@@ -229,11 +223,11 @@
             // Fade out effect
             setTimeout(() => {
                 feedback.style.opacity = 0;
-            }, 500); // Shorten duration for feedback message
+            }, 300); // Reduced fade duration
             // Remove feedback element after animation
             setTimeout(() => {
                 feedback.remove();
-            }, 1000); // Shorten total display time
+            }, 600); // Adjusted total display time
         }
 
         function showTab(tabId) {
