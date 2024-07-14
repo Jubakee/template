@@ -5,7 +5,7 @@ const energyRechargeRate = 1; // Energy recharge rate
 const rechargeInterval = 3000; // Recharge every 3 seconds
 let lastUpdateTime = Date.now(); // Track last update time
 let level = 1; // Starting level
-const levelUpThreshold = 2000; // Coins needed to level up
+const levelUpThreshold = 215; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
 function loadCounter() {
@@ -19,16 +19,14 @@ function loadCounter() {
     }
 
     if (savedEnergy) {
-        energy = parseInt(savedEnergy, 10);
+        energy = Math.min(parseInt(savedEnergy, 10), maxEnergy); // Cap energy at max
     }
 
     if (savedLastUpdate) {
         lastUpdateTime = parseInt(savedLastUpdate, 10);
         const elapsedTime = Date.now() - lastUpdateTime;
         energy += Math.floor(elapsedTime / rechargeInterval) * energyRechargeRate;
-        if (energy > maxEnergy) {
-            energy = maxEnergy; // Cap energy at max
-        }
+        energy = Math.min(energy, maxEnergy); // Cap energy at max
     }
 
     updateEnergyBar(); // Initialize energy bar display
@@ -47,49 +45,28 @@ function imageClicked(event) {
     const touchCount = touches.length;
 
     if (energy <= 0) {
-        alert("Not enough clicks to click the cabbage!");
+        alert("Not enough energy to click the cabbage!");
         return; // Prevent clicking if energy is 0
     }
 
     count += touchCount * coinsPerClick; // Increment count based on the number of touches
     energy -= touchCount; // Reduce energy with each click
-    if (energy < 0) {
-        energy = 0; // Prevent negative energy
-    }
+    energy = Math.max(energy, 0); // Prevent negative energy
 
-    const countElement = document.getElementById('count');
-    countElement.innerText = count;
+    document.getElementById('count').innerText = count;
     saveCounter();
     updateEnergyBar(); // Update energy bar display
     updateLevel(); // Check for level up
 
-    // Animate the counter value
-    animateCounter(countElement);
+    animateCounter(document.getElementById('count'));
 
-    const audio = new Audio('./assets/click-sound.mp3');
-    audio.play();
-
-    // Vibration effect for mobile devices
-    if (navigator.vibrate) {
-        navigator.vibrate(100); // Vibrate for 100 milliseconds
-    }
-
-    const cabbageImage = document.querySelector('#clickable-image img');
-    cabbageImage.classList.add('clicked');
-    setTimeout(() => {
-        cabbageImage.classList.remove('clicked');
-    }, 300);
-
-    // Create feedback for each touch
-    for (let i = 0; i < touchCount; i++) {
-        const x = touches[i].clientX;
-        const y = touches[i].clientY;
-        createFeedback(x, y);
-    }
+    // Play sound and provide haptic feedback
+    playClickSound();
+    provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 }
 
 function updateLevel() {
-    if (count >= level * levelUpThreshold) {
+    while (count >= level * levelUpThreshold) {
         level++;
         coinsPerClick = level; // Increase coins per click
         updateLevelDisplay(); // Update level display
@@ -97,9 +74,10 @@ function updateLevel() {
 }
 
 function updateLevelDisplay() {
-    const levelDisplay = document.getElementById('level-display');
-    levelDisplay.innerText = `Level: ${level}`;
+    const levelDisplay = document.getElementById('level-value');
+    levelDisplay.innerText = `Level: ${level}`; // Correctly update the displayed level
 }
+
 
 function animateCounter(countElement) {
     countElement.style.transform = 'scale(1.2)'; // Scale up
@@ -108,10 +86,10 @@ function animateCounter(countElement) {
     }, 300); // Duration of the scale effect
 }
 
-function createFeedback(x, y) {
+function createFeedback(x, y, amount) {
     const feedback = document.createElement('div');
     feedback.className = 'feedback';
-    feedback.innerText = '+1';
+    feedback.innerText = `+${amount}`; // Display the amount of coins
     feedback.style.left = `${x}px`;
     feedback.style.top = `${y - 30}px`;
     document.body.appendChild(feedback);
@@ -120,12 +98,10 @@ function createFeedback(x, y) {
     setTimeout(() => {
         feedback.style.opacity = 0;
     }, 300);
-    // Remove feedback element after animation
     setTimeout(() => {
         feedback.remove();
     }, 600);
 }
-
 function updateEnergyBar() {
     const energyFill = document.getElementById('energy-fill');
     const energyValue = document.getElementById('energy-count');
@@ -136,9 +112,7 @@ function updateEnergyBar() {
 function rechargeEnergy() {
     if (energy < maxEnergy) {
         energy += energyRechargeRate;
-        if (energy > maxEnergy) {
-            energy = maxEnergy; // Cap energy at max
-        }
+        energy = Math.min(energy, maxEnergy); // Cap energy at max
         updateEnergyBar();
     }
 }
@@ -157,5 +131,23 @@ function showTab(tabId) {
 }
 
 window.onload = loadCounter;
+
+function playClickSound() {
+    const audio = new Audio('./assets/click-sound.mp3');
+    audio.play();
+}
+
+function provideFeedback(touches, coinsPerClick) {
+    const cabbageImage = document.querySelector('#clickable-image img');
+    cabbageImage.classList.add('clicked');
+    setTimeout(() => {
+        cabbageImage.classList.remove('clicked');
+    }, 300);
+
+    // Create feedback for each touch
+    for (let i = 0; i < touches.length; i++) {
+        createFeedback(touches[i].clientX, touches[i].clientY, coinsPerClick); // Pass coinsPerClick
+    }
+}
 
 Telegram.WebApp.setHeaderColor('secondary_bg_color');
