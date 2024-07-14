@@ -176,34 +176,40 @@
         }
 
         function imageClicked(event) {
-            event.preventDefault(); // Prevent default behavior
-            const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
-            const touchCount = touches.length;
+    event.preventDefault(); // Prevent default behavior
+    const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
+    const touchCount = touches.length;
 
-            count += touchCount; // Increment count based on the number of touches
-            const countElement = document.getElementById('count');
-            countElement.innerText = count;
-            saveCounter();
+    count += touchCount; // Increment count based on the number of touches
+    const countElement = document.getElementById('count');
+    countElement.innerText = count;
+    saveCounter();
 
-            // Animate the counter value
-            animateCounter(countElement);
+    // Animate the counter value
+    animateCounter(countElement);
 
-            const audio = new Audio('./assets/click-sound.mp3');
-            audio.play();
+    const audio = new Audio('./assets/click-sound.mp3');
+    audio.play();
 
-            const cabbageImage = document.querySelector('#clickable-image img');
-            cabbageImage.classList.add('clicked');
-            setTimeout(() => {
-                cabbageImage.classList.remove('clicked');
-            }, 300);
+    // Vibration effect for mobile devices
+    if (navigator.vibrate) {
+        navigator.vibrate(100); // Vibrate for 100 milliseconds
+    }
 
-            // Create feedback for each touch
-            for (let i = 0; i < touchCount; i++) {
-                const x = touches[i].clientX;
-                const y = touches[i].clientY;
-                createFeedback(x, y);
-            }
-        }
+    const cabbageImage = document.querySelector('#clickable-image img');
+    cabbageImage.classList.add('clicked');
+    setTimeout(() => {
+        cabbageImage.classList.remove('clicked');
+    }, 300);
+
+    // Create feedback for each touch
+    for (let i = 0; i < touchCount; i++) {
+        const x = touches[i].clientX;
+        const y = touches[i].clientY;
+        createFeedback(x, y);
+    }
+}
+
 
         function animateCounter(countElement) {
             countElement.style.transform = 'scale(1.2)'; // Scale up
