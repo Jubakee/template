@@ -150,22 +150,4 @@ function provideFeedback(touches, coinsPerClick) {
     }
 }
 
-function resetCounter() {
-    localStorage.removeItem('kimchiCounter');
-    localStorage.removeItem('kimchiEnergy');
-    localStorage.removeItem('lastUpdateTime');
-
-    // Reset variables in memory
-    count = 0;
-    energy = 5000; // Reset to starting energy
-    level = 1; // Reset to starting level
-    coinsPerClick = 1; // Reset coins per click
-
-    // Update the UI
-    document.getElementById('count').innerText = count;
-    updateEnergyBar();
-    updateLevelDisplay();
-}
-
-
 Telegram.WebApp.setHeaderColor('secondary_bg_color');
