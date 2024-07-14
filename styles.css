@@ -106,7 +106,7 @@ footer {
 }
 
 #header {
-    margin-top: 8px;
+    margin-top: 16px;
 }
 
 #level-container {
@@ -117,6 +117,7 @@ footer {
 
 #level-icon {
     font-size: 24px; /* Adjust level icon size */
+    margin-right: 8px;
 }
 
 #energy-bar-container {
