@@ -35,7 +35,7 @@
         footer {
             display: flex;
             justify-content: space-around;
-            background-color: white; /* Set background to white */
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
             padding: 10px 0; /* Vertical padding */
             position: relative;
             bottom: 0;
@@ -47,26 +47,25 @@
             flex: 1;
             text-align: center;
             padding: 10px; /* Add padding for touch targets */
-            margin: 0 5px; /* Add margin to each tab */
+            margin: 0px 10px; /* Add margin to each tab */
             border-radius: 10px; /* Rounded corners */
             transition: background-color 0.3s, color 0.3s; /* Smooth transition */
-            color: black; /* Default text color */
         }
 
         .tab img {
-            width: 48px; /* Increased icon size */
+            width: 32px; /* Increased icon size */
             margin-bottom: 5px; /* Space below icon */
             border: none; /* Remove border */
         }
 
         .tab span {
-            font-size: 16px; /* Larger text size */
+            font-size: 14px; /* Larger text size */
             display: block; /* Stack text below icon */
         }
 
         .active-tab {
-            background-color: #4CAF50; /* Highlight color for active tab */
-            color: white; /* Text color for active tab */
+            background-color: green; /* Highlight color for active tab */
+            border-radius: 5px; /* Rounded corners */
         }
 
         #clickable-image {
@@ -112,19 +111,19 @@
 
     <footer>
         <div class="tab active-tab" onclick="showTab('tab1');" id="tab1-btn">
-            <img src="./assets/click.png" alt="Click Icon">
+            <img src="./assets/icon1.png" alt="Tab 1 Icon">
             <span>Click</span>
         </div>
         <div class="tab" onclick="showTab('tab2');" id="tab2-btn">
-            <img src="./assets/garden.png" alt="Garden Icon">
+            <img src="./assets/icon2.png" alt="Tab 2 Icon">
             <span>Garden</span>
         </div>
         <div class="tab" onclick="showTab('tab3');" id="tab3-btn">
-            <img src="./assets/shop.png" alt="Shop Icon">
+            <img src="./assets/icon3.png" alt="Tab 3 Icon">
             <span>Shop</span>
         </div>
         <div class="tab" onclick="showTab('tab4');" id="tab4-btn">
-            <img src="./assets/earn.png" alt="Earn Icon">
+            <img src="./assets/icon4.png" alt="Tab 4 Icon">
             <span>Earn</span>
         </div>
     </footer>
@@ -153,14 +152,11 @@
             // Remove active-tab class from all buttons
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active-tab');
-                tab.style.color = 'black'; // Set text color to black for inactive tabs
             });
             // Show the selected tab
             document.getElementById(tabId).classList.add('active');
             // Add active-tab class to the clicked button
-            const activeTab = document.getElementById(tabId + '-btn');
-            activeTab.classList.add('active-tab');
-            activeTab.style.color = 'white'; // Set text color to white for active tab
+            document.getElementById(tabId + '-btn').classList.add('active-tab');
         }
 
         function setViewportData() {
