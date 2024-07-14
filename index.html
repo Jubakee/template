@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Kimchi Kingdom</title>
     <style>
@@ -16,15 +16,63 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Center vertically */
+            justify-content: flex-start; /* Align items to start */
             text-align: center;
         }
 
-        #clickable-image {
+        main {
+            flex-grow: 1; /* Allow main to grow and take available space */
+            display: none; /* Hide initially */
+            justify-content: center; /* Center contents vertically */
+            align-items: center; /* Center contents horizontally */
+            text-align: center; /* Center text */
+        }
+
+        .active {
+            display: flex; /* Show active page */
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-around;
+            background-color: white; /* Set background to white */
+            padding: 10px 0; /* Vertical padding */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .tab {
             cursor: pointer;
-            border: none;
-            background: none;
-            outline: none;
+            flex: 1;
+            text-align: center;
+            padding: 10px; /* Add padding for touch targets */
+            margin: 0 5px; /* Add margin to each tab */
+            border-radius: 10px; /* Rounded corners */
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+            color: black; /* Default text color */
+        }
+
+        .tab img {
+            width: 48px; /* Increased icon size */
+            margin-bottom: 5px; /* Space below icon */
+            border: none; /* Remove border */
+        }
+
+        .tab span {
+            font-size: 16px; /* Larger text size */
+            display: block; /* Stack text below icon */
+        }
+
+        .active-tab {
+            background-color: #4CAF50; /* Highlight color for active tab */
+            color: white; /* Text color for active tab */
+        }
+
+        #clickable-image {
+            border: none; /* Remove any border */
+            background: none; /* Remove background */
+            padding: 0; /* Remove padding */
         }
 
         #counter {
@@ -35,14 +83,52 @@
 </head>
 
 <body>
-    <main>
-        <div align="center">
+    <main id="tab1" class="active">
+        <div>
             <button id="clickable-image" onclick="imageClicked();">
-                <img width="240" src="./assets/cabbage_1.png" alt="logo of telegram web apps">
+                <img width="120" src="./assets/cabbage_1.png" alt="logo of telegram web apps">
             </button>
             <div id="counter"><span id="count">0</span></div>
         </div>
     </main>
+
+    <main id="tab2">
+        <div>
+            <p>This is the content for Tab 2.</p>
+        </div>
+    </main>
+
+    <main id="tab3">
+        <div>
+            <p>This is the content for Tab 3.</p>
+        </div>
+    </main>
+
+    <main id="tab4">
+        <div>
+            <p>This is the content for Tab 4.</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="tab active-tab" onclick="showTab('tab1');" id="tab1-btn">
+            <img src="./assets/click.png" alt="Click Icon">
+            <span>Click</span>
+        </div>
+        <div class="tab" onclick="showTab('tab2');" id="tab2-btn">
+            <img src="./assets/garden.png" alt="Garden Icon">
+            <span>Garden</span>
+        </div>
+        <div class="tab" onclick="showTab('tab3');" id="tab3-btn">
+            <img src="./assets/shop.png" alt="Shop Icon">
+            <span>Shop</span>
+        </div>
+        <div class="tab" onclick="showTab('tab4');" id="tab4-btn">
+            <img src="./assets/earn.png" alt="Earn Icon">
+            <span>Earn</span>
+        </div>
+    </footer>
+
     <div id="viewport"></div>
     <div id="viewport-params-size"></div>
     <div id="viewport-params-expand"></div>
@@ -57,6 +143,24 @@
         function imageClicked() {
             count++;
             document.getElementById('count').innerText = count;
+        }
+
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('main').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active-tab class from all buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active-tab');
+                tab.style.color = 'black'; // Set text color to black for inactive tabs
+            });
+            // Show the selected tab
+            document.getElementById(tabId).classList.add('active');
+            // Add active-tab class to the clicked button
+            const activeTab = document.getElementById(tabId + '-btn');
+            activeTab.classList.add('active-tab');
+            activeTab.style.color = 'white'; // Set text color to white for active tab
         }
 
         function setViewportData() {
