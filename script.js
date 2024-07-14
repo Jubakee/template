@@ -9,9 +9,9 @@ const levelUpThreshold = 500; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
 function loadCounter() {
-    const savedCount = localStorage.getItem('kimchiCounter');
-    const savedEnergy = localStorage.getItem('kimchiEnergy');
-    const savedLastUpdate = localStorage.getItem('lastUpdateTime');
+    const savedCount = localStorage.getItem('kimchi_Counter');
+    const savedEnergy = localStorage.getItem('kimchi_Energy');
+    const savedLastUpdate = localStorage.getItem('lastUpdate_Time');
 
     if (savedCount) {
         count = parseInt(savedCount, 10);
@@ -34,9 +34,9 @@ function loadCounter() {
 }
 
 function saveCounter() {
-    localStorage.setItem('kimchiCounter', count);
-    localStorage.setItem('kimchiEnergy', energy);
-    localStorage.setItem('lastUpdateTime', Date.now()); // Update last update time
+    localStorage.setItem('kimchi_Counter', count);
+    localStorage.setItem('kimchi_Energy', energy);
+    localStorage.setItem('lastUpdate_Time', Date.now()); // Update last update time
 }
 
 function imageClicked(event) {
@@ -150,27 +150,5 @@ function provideFeedback(touches, coinsPerClick) {
     }
 }
 
-
-function resetGame() {
-    count = 0;
-    energy = 5000; // Reset energy to starting value
-    level = 1; // Reset level to starting value
-    coinsPerClick = 1; // Reset coins per click
-
-    // Clear saved data from local storage
-    localStorage.removeItem('kimchiCounter');
-    localStorage.removeItem('kimchiEnergy');
-    localStorage.removeItem('lastUpdateTime');
-
-    // Update the UI
-    document.getElementById('count').innerText = count;
-    updateEnergyBar();
-    updateLevelDisplay();
-}
-
-window.onload = function() {
-    resetGame(); // Resets the game data when the page loads
-    loadCounter(); // Load any existing data if necessary
-};
 
 Telegram.WebApp.setHeaderColor('secondary_bg_color');
