@@ -65,6 +65,18 @@ function imageClicked(event) {
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 }
 
+// Prevent scrolling on touch move
+document.addEventListener('touchmove', function(event) {
+    event.preventDefault(); // Prevent scrolling
+}, { passive: false });
+
+document.addEventListener('touchstart', function(event) {
+    if (event.touches.length > 1) {
+        event.preventDefault(); // Prevent double tap zoom
+    }
+}, { passive: false });
+
+
 function updateLevel() {
     while (count >= level * levelUpThreshold) {
         level++;

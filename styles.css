@@ -10,6 +10,8 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+    touch-action: manipulation; /* Allow only manipulation actions like tapping */
+    overscroll-behavior: contain; /* Prevent overscroll */
 }
 
 main {
