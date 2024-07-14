@@ -1,0 +1,145 @@
+body {
+    background-color: #00000D;
+    color: white;
+    font: 12px/18px "Comic Sans MS", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+main {
+    flex-grow: 1;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.active {
+    display: flex;
+}
+
+#counter-icon {
+    width: 48px;
+}
+
+.counter-value {
+    font-size: 22px;
+    color: white;
+    line-height: 1;
+    transition: transform 0.3s;
+    margin-top: 8px;
+}
+
+#clickable-image {
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+#image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    position: relative;
+}
+
+.feedback {
+    position: absolute;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.3s, transform 0.5s;
+    pointer-events: none;
+}
+
+@keyframes cabbage-click {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.clicked {
+    animation: cabbage-click 0.3s ease;
+}
+
+footer {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.tab {
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    margin: 0px 10px;
+    border-radius: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tab img {
+    width: 32px;
+    margin-bottom: 5px;
+    border: none;
+}
+
+.tab span {
+    font-size: 12px;
+    display: block;
+}
+
+.active-tab {
+    background-color: green;
+    border-radius: 5px;
+}
+
+#header {
+    margin-top: 8px;
+}
+
+#level-container {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+#level-icon {
+    font-size: 24px; /* Adjust level icon size */
+    margin-right: 5px; /* Spacing between icon and text */
+}
+
+#energy-bar-container {
+    margin-bottom: 32px;
+    text-align: center;
+    width: 75%;
+}
+
+#energy-fill {
+    transition: width 0.3s;
+    height: 100%;
+    background-color: yellow;
+    border-radius: 5px;
+}
+
+#energy-value {
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.energy-emoji {
+    font-size: 24px;
+    vertical-align: middle;
+}

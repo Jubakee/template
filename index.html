@@ -6,162 +6,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Kimchi Kingdom</title>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #00000D;
-            color: white;
-            font: 12px/18px "Comic Sans MS", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        main {
-            flex-grow: 1;
-            display: none;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-        }
-
-        .active {
-            display: flex;
-        }
-
-        #counter-icon {
-            width: 48px; /* Change this value to adjust icon size */
-        }
-
-        .counter-value {
-            font-size: 22px;
-            color: white;
-            line-height: 1;
-            transition: transform 0.3s;
-            margin-top: 8px; /* Adjust margin for spacing */
-        }
-
-        #clickable-image {
-            border: none;
-            background: none;
-            padding: 0;
-        }
-
-        #image-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-grow: 1;
-            position: relative;
-        }
-
-        .feedback {
-            position: absolute;
-            font-size: 32px;
-            font-weight: bold;
-            color: white;
-            opacity: 1;
-            transition: opacity 0.3s, transform 0.5s; /* Reduced fade duration */
-            pointer-events: none;
-        }
-
-        @keyframes cabbage-click {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .clicked {
-            animation: cabbage-click 0.3s ease;
-        }
-
-        footer {
-            display: flex;
-            justify-content: space-around;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 10px 0;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .tab {
-            cursor: pointer;
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            margin: 0px 10px;
-            border-radius: 10px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .tab img {
-            width: 32px;
-            margin-bottom: 5px;
-            border: none;
-        }
-
-        .tab span {
-            font-size: 12px;
-            display: block;
-        }
-
-        .active-tab {
-            background-color: green;
-            border-radius: 5px;
-        }
-
-        #header {
-            margin-top: 8px; /* Adjust this value */
-        }
-
-        #energy-bar-container {
-            margin-bottom: 32px;
-            text-align: center;
-            width: 75%;
-        }
-
-        #energy-fill {
-            transition: width 0.3s; /* Smooth transition */
-            height: 100%;
-            background-color: yellow;
-            border-radius: 5px;
-        }
-
-        #energy-value {
-            font-size: 18px; /* Adjust font size */
-            margin-top: 5px; /* Space between bar and text */
-
-        }
-
-        .energy-emoji {
-            font-size: 24px; /* Size of the emoji */
-            vertical-align: middle; /* Align emoji with text */
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <main id="tab1" class="active">
         <div id="header">
             <div style="display: flex; align-items: center;">
-                <img src="./assets/cabbagecoin.png" alt="image" id="counter-icon">
+                <!-- <img src="./assets/cabbagecoin.png" alt="coin icon" id="counter-icon"> -->
+                <span id="level-icon">💵</span>
                 <span id="count" class="counter-value">0</span>
+            </div>
+            <div id="level-container">
+                <span id="level-icon">🏆</span>
+                <span id="level-value">Level: 1</span>
             </div>
         </div>
         
         <div id="image-container">
             <button id="clickable-image" onclick="imageClicked(event);" ontouchstart="imageClicked(event);">
-                <img width="320" src="./assets/cabbage_1.png" alt="logo of telegram web apps">
+                <img width="320" src="./assets/cabbage_1.png" alt="cabbage">
             </button>
         </div>
     </main>
 
-  
     <div id="energy-bar-container">
         <div id="energy-bar" style="width: 100%; background-color: red; height: 20px; border-radius: 5px;">
             <div id="energy-fill" style="width: 100%;"></div>
@@ -174,174 +42,26 @@
         </div>
     </div>
     
-    
     <footer>
         <div class="tab active-tab" onclick="showTab('tab1');" id="tab1-btn">
-            <img src="./assets/icon1.png" alt="image">
+            <img src="./assets/icon1.png" alt="Click icon">
             <span>Click</span>
         </div>
         <div class="tab" onclick="showTab('tab2');" id="tab2-btn">
-            <img src="./assets/icon2.png" alt="image">
+            <img src="./assets/icon2.png" alt="Garden icon">
             <span>Garden</span>
         </div>
         <div class="tab" onclick="showTab('tab3');" id="tab3-btn">
-            <img src="./assets/icon3.png" alt="image">
+            <img src="./assets/icon3.png" alt="Shop icon">
             <span>Shop</span>
         </div>
         <div class="tab" onclick="showTab('tab4');" id="tab4-btn">
-            <img src="./assets/icon4.png" alt="image">
+            <img src="./assets/icon4.png" alt="Earn icon">
             <span>Earn</span>
         </div>
     </footer>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
-
-        let count = 0;
-        let energy = 5000; // Starting energy value
-        const maxEnergy = 5000; // Maximum energy value
-        const energyRechargeRate = 1; // Energy recharge rate
-        const rechargeInterval = 3000; // Recharge every 3 seconds
-        let lastUpdateTime = Date.now(); // Track last update time
-
-        function loadCounter() {
-            const savedCount = localStorage.getItem('kimchiCounter');
-            const savedEnergy = localStorage.getItem('kimchiEnergy');
-            const savedLastUpdate = localStorage.getItem('lastUpdateTime');
-
-            if (savedCount) {
-                count = parseInt(savedCount, 10);
-                document.getElementById('count').innerText = count;
-            }
-
-            if (savedEnergy) {
-                energy = parseInt(savedEnergy, 10);
-            }
-
-            if (savedLastUpdate) {
-                lastUpdateTime = parseInt(savedLastUpdate, 10);
-                const elapsedTime = Date.now() - lastUpdateTime;
-                energy += Math.floor(elapsedTime / rechargeInterval) * energyRechargeRate;
-                if (energy > maxEnergy) {
-                    energy = maxEnergy; // Cap energy at max
-                }
-            }
-
-            updateEnergyBar(); // Initialize energy bar display
-        }
-
-        function saveCounter() {
-            localStorage.setItem('kimchiCounter', count);
-            localStorage.setItem('kimchiEnergy', energy);
-            localStorage.setItem('lastUpdateTime', Date.now()); // Update last update time
-        }
-
-        function imageClicked(event) {
-            event.preventDefault(); // Prevent default behavior
-            const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
-            const touchCount = touches.length;
-
-            if (energy <= 0) {
-                alert("Not enough clicks to click the cabbage!");
-                return; // Prevent clicking if energy is 0
-            }
-
-            count += touchCount; // Increment count based on the number of touches
-            energy -= touchCount; // Reduce energy with each click
-            if (energy < 0) {
-                energy = 0; // Prevent negative energy
-            }
-
-            const countElement = document.getElementById('count');
-            countElement.innerText = count;
-            saveCounter();
-            updateEnergyBar(); // Update energy bar display
-
-            // Animate the counter value
-            animateCounter(countElement);
-
-            const audio = new Audio('./assets/click-sound.mp3');
-            audio.play();
-
-            // Vibration effect for mobile devices
-            if (navigator.vibrate) {
-                navigator.vibrate(100); // Vibrate for 100 milliseconds
-            }
-
-            const cabbageImage = document.querySelector('#clickable-image img');
-            cabbageImage.classList.add('clicked');
-            setTimeout(() => {
-                cabbageImage.classList.remove('clicked');
-            }, 300);
-
-            // Create feedback for each touch
-            for (let i = 0; i < touchCount; i++) {
-                const x = touches[i].clientX;
-                const y = touches[i].clientY;
-                createFeedback(x, y);
-            }
-        }
-
-        function animateCounter(countElement) {
-            countElement.style.transform = 'scale(1.2)'; // Scale up
-            setTimeout(() => {
-                countElement.style.transform = 'scale(1)'; // Scale back down
-            }, 300); // Duration of the scale effect
-        }
-
-        function createFeedback(x, y) {
-            const feedback = document.createElement('div');
-            feedback.className = 'feedback';
-            feedback.innerText = '+1';
-            feedback.style.left = `${x}px`;
-            feedback.style.top = `${y - 30}px`;
-            document.body.appendChild(feedback);
-
-            // Fade out effect
-            setTimeout(() => {
-                feedback.style.opacity = 0;
-            }, 300); // Reduced fade duration
-            // Remove feedback element after animation
-            setTimeout(() => {
-                feedback.remove();
-            }, 600); // Adjusted total display time
-        }
-
-        function updateEnergyBar() {
-            const energyFill = document.getElementById('energy-fill');
-            const energyValue = document.getElementById('energy-count'); // Updated to select the count span
-            energyFill.style.width = `${(energy / maxEnergy) * 100}%`;
-            energyValue.innerText = energy; // Update the energy value text
-        }
-
-        function rechargeEnergy() {
-            if (energy < maxEnergy) {
-                energy += energyRechargeRate;
-                if (energy > maxEnergy) {
-                    energy = maxEnergy; // Cap energy at max
-                }
-                updateEnergyBar();
-            }
-        }
-
-        setInterval(rechargeEnergy, rechargeInterval);
-
-        function showTab(tabId) {
-            document.querySelectorAll('main').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active-tab');
-            });
-            document.getElementById(tabId).classList.add('active');
-            document.getElementById(tabId + '-btn').classList.add('active-tab');
-        }
-
-        window.onload = loadCounter;
-
-        Telegram.WebApp.setHeaderColor('secondary_bg_color');
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
