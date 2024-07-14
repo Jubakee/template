@@ -130,7 +130,6 @@
             background-color: yellow;
             border-radius: 5px;
         }
-
     </style>
 </head>
 
@@ -186,18 +185,38 @@
         const maxEnergy = 5000; // Maximum energy value
         const energyRechargeRate = 1; // Energy recharge rate
         const rechargeInterval = 3000; // Recharge every 3 seconds
+        let lastUpdateTime = Date.now(); // Track last update time
 
         function loadCounter() {
             const savedCount = localStorage.getItem('kimchiCounter');
+            const savedEnergy = localStorage.getItem('kimchiEnergy');
+            const savedLastUpdate = localStorage.getItem('lastUpdateTime');
+
             if (savedCount) {
                 count = parseInt(savedCount, 10);
                 document.getElementById('count').innerText = count;
             }
+
+            if (savedEnergy) {
+                energy = parseInt(savedEnergy, 10);
+            }
+
+            if (savedLastUpdate) {
+                lastUpdateTime = parseInt(savedLastUpdate, 10);
+                const elapsedTime = Date.now() - lastUpdateTime;
+                energy += Math.floor(elapsedTime / rechargeInterval) * energyRechargeRate;
+                if (energy > maxEnergy) {
+                    energy = maxEnergy; // Cap energy at max
+                }
+            }
+
             updateEnergyBar(); // Initialize energy bar display
         }
 
         function saveCounter() {
             localStorage.setItem('kimchiCounter', count);
+            localStorage.setItem('kimchiEnergy', energy);
+            localStorage.setItem('lastUpdateTime', Date.now()); // Update last update time
         }
 
         function imageClicked(event) {
