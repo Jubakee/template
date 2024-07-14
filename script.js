@@ -34,7 +34,7 @@ function loadCounter() {
 }
 
 function saveCounter() {
-    localStorage.setItem('kimchiCounter', count);
+    localStorage.setItem('kimchiCounter', 0);
     localStorage.setItem('kimchiEnergy', energy);
     localStorage.setItem('lastUpdateTime', Date.now()); // Update last update time
 }
