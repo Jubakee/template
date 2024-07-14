@@ -32,12 +32,6 @@
             display: flex;
         }
 
-        #header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
         .counter-container {
             display: flex;
             align-items: center; /* Center items vertically */
@@ -143,7 +137,7 @@
         </div>
         
         <div id="image-container">
-            <button id="clickable-image" onclick="imageClicked(event);">
+            <button id="clickable-image" onclick="imageClicked(event);" ontouchstart="imageClicked(event);">
                 <img width="360" src="./assets/cabbage_1.png" alt="logo of telegram web apps">
             </button>
         </div>
@@ -189,7 +183,8 @@
         }
 
         function imageClicked(event) {
-            count++;
+            const touchCount = event.touches ? event.touches.length : 1;
+            count += touchCount; // Increment count based on the number of touches
             const countElement = document.getElementById('count');
             countElement.innerText = count;
             saveCounter();
@@ -204,10 +199,10 @@
             }, 300);
 
             const feedback = document.getElementById('feedback');
-            feedback.innerText = '+1';
+            feedback.innerText = `+${touchCount}`; // Show how many were clicked
 
-            const x = event.clientX;
-            const y = event.clientY;
+            const x = event.touches ? event.touches[0].clientX : event.clientX;
+            const y = event.touches ? event.touches[0].clientY : event.clientY;
             feedback.style.left = `${x}px`;
             feedback.style.top = `${y - 30}px`;
             feedback.style.opacity = 1;
