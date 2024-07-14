@@ -29,7 +29,6 @@ main {
 }
 
 .counter-value {
-    font-size: 22px;
     color: white;
     line-height: 1;
     transition: transform 0.3s;
@@ -118,7 +117,6 @@ footer {
 
 #level-icon {
     font-size: 24px; /* Adjust level icon size */
-    margin-right: 5px; /* Spacing between icon and text */
 }
 
 #energy-bar-container {
@@ -132,11 +130,6 @@ footer {
     height: 100%;
     background-color: yellow;
     border-radius: 5px;
-}
-
-#energy-value {
-    font-size: 18px;
-    margin-top: 5px;
 }
 
 .energy-emoji {
