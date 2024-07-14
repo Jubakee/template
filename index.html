@@ -40,20 +40,19 @@
             border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.1);
             margin-top: 16px;
+            padding: 10px;
         }
 
         #counter-icon {
-            width: 64px;
-            margin-bottom: 8px;
-            margin-left: 8px;
+            width: 48px;
         }
 
         .counter-value {
-            font-size: 32px;
+            font-size: 18px;
             color: white;
             line-height: 1;
-            transition: transform 0.3s; /* Add transition for scaling effect */
-            margin-right: 16px;
+            transition: transform 0.3s;
+            margin-right: 6px;
         }
 
         #clickable-image {
@@ -76,7 +75,7 @@
             font-weight: bold;
             color: white;
             opacity: 1;
-            transition: opacity 1s, transform 0.5s;
+            transition: opacity 0.5s, transform 0.5s;
             pointer-events: none;
         }
 
@@ -183,7 +182,7 @@
         }
 
         function imageClicked(event) {
-            event.preventDefault(); // Prevent default behavior to stop page minimization
+            event.preventDefault(); // Prevent default behavior
             const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
             const touchCount = touches.length;
 
@@ -230,11 +229,11 @@
             // Fade out effect
             setTimeout(() => {
                 feedback.style.opacity = 0;
-            }, 1000);
+            }, 500); // Shorten duration for feedback message
             // Remove feedback element after animation
             setTimeout(() => {
                 feedback.remove();
-            }, 1500);
+            }, 1000); // Shorten total display time
         }
 
         function showTab(tabId) {
