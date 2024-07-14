@@ -5,18 +5,8 @@ const energyRechargeRate = 1; // Energy recharge rate
 const rechargeInterval = 3000; // Recharge every 3 seconds
 let lastUpdateTime = Date.now(); // Track last update time
 let level = 1; // Starting level
+const levelUpThreshold = 500; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
-
-// Function to calculate the level-up threshold
-function calculateLevelUpThreshold(level) {
-    if (level === 1) return 300;
-    if (level === 2) return 500;
-    if (level === 3) return 800;
-    if (level === 4) return 1200;
-    if (level === 5) return 1600;
-    // For levels 6 and above, increase the threshold exponentially
-    return Math.floor(300 * Math.pow(2, level - 1)); // Example: 300, 600, 1200, 2400, etc.
-}
 
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');
@@ -76,8 +66,7 @@ function imageClicked(event) {
 }
 
 function updateLevel() {
-    const levelUpThreshold = calculateLevelUpThreshold(level); // Get the current threshold
-    while (count >= levelUpThreshold) {
+    while (count >= level * levelUpThreshold) {
         level++;
         coinsPerClick = level; // Increase coins per click
         updateLevelDisplay(); // Update level display
@@ -88,6 +77,7 @@ function updateLevelDisplay() {
     const levelDisplay = document.getElementById('level-value');
     levelDisplay.innerText = `Level: ${level}`; // Correctly update the displayed level
 }
+
 
 function animateCounter(countElement) {
     countElement.style.transform = 'scale(1.2)'; // Scale up
@@ -112,7 +102,6 @@ function createFeedback(x, y, amount) {
         feedback.remove();
     }, 600);
 }
-
 function updateEnergyBar() {
     const energyFill = document.getElementById('energy-fill');
     const energyValue = document.getElementById('energy-count');
