@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Kimchi Kingdom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #00000D;
             color: white;
-            font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
+            font: 12px/18px "Comic Sans MS", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             height: 100vh;
@@ -130,6 +131,17 @@
             background-color: yellow;
             border-radius: 5px;
         }
+
+        #energy-value {
+            font-size: 18px; /* Adjust font size */
+            margin-top: 5px; /* Space between bar and text */
+
+        }
+
+        .energy-emoji {
+            font-size: 24px; /* Size of the emoji */
+            vertical-align: middle; /* Align emoji with text */
+        }
     </style>
 </head>
 
@@ -149,12 +161,19 @@
         </div>
     </main>
 
+  
     <div id="energy-bar-container">
         <div id="energy-bar" style="width: 100%; background-color: red; height: 20px; border-radius: 5px;">
             <div id="energy-fill" style="width: 100%;"></div>
         </div>
-        <span id="energy-value">Clicks: 5000</span>
+        <div id="energy-value-container" style="padding: 20px; border-radius: 5px;">
+            <span id="energy-value">
+                <span class="energy-emoji">⚡</span>
+                <span id="energy-count">5000</span> / <span id="max-energy">5000</span>
+            </span>
+        </div>
     </div>
+    
     
     <footer>
         <div class="tab active-tab" onclick="showTab('tab1');" id="tab1-btn">
@@ -292,9 +311,9 @@
 
         function updateEnergyBar() {
             const energyFill = document.getElementById('energy-fill');
-            const energyValue = document.getElementById('energy-value');
+            const energyValue = document.getElementById('energy-count'); // Updated to select the count span
             energyFill.style.width = `${(energy / maxEnergy) * 100}%`;
-            energyValue.innerText = `Clicks: ${energy}`;
+            energyValue.innerText = energy; // Update the energy value text
         }
 
         function rechargeEnergy() {
