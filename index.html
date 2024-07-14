@@ -23,13 +23,50 @@
         main {
             flex-grow: 1; /* Allow main to grow and take available space */
             display: none; /* Hide initially */
-            justify-content: center; /* Center contents vertically */
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: flex-start; /* Align contents at the top */
             align-items: center; /* Center contents horizontally */
-            text-align: center; /* Center text */
         }
 
         .active {
             display: flex; /* Show active page */
+        }
+
+        #header {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            margin: 20px 0; /* Space above and below the header */
+        }
+
+        #counter-header {
+            display: flex;
+            align-items: center; /* Center icon and text vertically */
+        }
+
+        #counter-icon {
+            width: 40px; /* Size of the counter icon */
+            margin-right: 10px; /* Space between icon and counter */
+        }
+
+        .counter-value {
+            font-size: 24px; /* Adjust font size for better visibility */
+            font-weight: bold; /* Make the font bold */
+            color: white; /* Set text color to white */
+        }
+
+        #clickable-image {
+            border: none; /* Remove any border */
+            background: none; /* Remove background */
+            padding: 0; /* Remove padding */
+            margin-top: 30px; /* Space above the cabbage image */
+        }
+
+        #image-container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            flex-grow: 1; /* Allow it to grow and center vertically */
         }
 
         footer {
@@ -67,27 +104,21 @@
             background-color: green; /* Highlight color for active tab */
             border-radius: 5px; /* Rounded corners */
         }
-
-        #clickable-image {
-            border: none; /* Remove any border */
-            background: none; /* Remove background */
-            padding: 0; /* Remove padding */
-        }
-
-        #counter {
-            margin-top: 20px;
-            font-size: 20px;
-        }
     </style>
 </head>
 
 <body>
     <main id="tab1" class="active">
-        <div>
+        <div id="header">
+            <div id="counter-header">
+                <img src="./assets/cabbagecoin.png" alt="image" id="counter-icon">
+                <span id="count" class="counter-value">0</span>
+            </div>
+        </div>
+        <div id="image-container">
             <button id="clickable-image" onclick="imageClicked();">
                 <img width="240" src="./assets/cabbage_1.png" alt="logo of telegram web apps">
             </button>
-            <div id="counter"><span id="count">0</span></div>
         </div>
     </main>
 
