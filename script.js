@@ -191,10 +191,10 @@ function resetGame() {
 }
 
 window.onload = function() {
-    // Telegram.WebApp.ready(() => {
-    //     Telegram.WebApp.expand();
-    // });
-    window.Telegram.WebApp.expand();
+    Telegram.WebApp.ready(() => {
+        Telegram.WebApp.expand();
+    });
+    // window.Telegram.WebApp.expand();
     resetGame();
     loadCounter();
     startRechargeTimer();

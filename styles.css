@@ -10,7 +10,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    overflow: hidden; /* Prevent scrolling */
+    /* overflow: hidden; Prevent scrolling */
 }
 
 main {
