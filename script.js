@@ -152,7 +152,7 @@ function showTab(tabId) {
     document.getElementById(tabId + '-btn').classList.add('active-tab');
 }
 
-
+window.onload = Telegram.WebApp.expand(); // Expand the web app to full height
 // window.onload = resetGame();
 window.onload = loadCounter;
 
@@ -174,9 +174,6 @@ function provideFeedback(touches, coinsPerClick) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    Telegram.WebApp.expand(); // Expand the web app to full height
-});
 
 
 // function resetGame() {
