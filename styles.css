@@ -10,6 +10,8 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+    touch-action: none; /* Disable all touch actions */
+
 }
 
 main {
@@ -18,7 +20,7 @@ main {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    touch-action: manipulation; /* Only allow manipulation actions */
+    touch-action: none; /* Disable all touch actions */
 }
 
 .active {

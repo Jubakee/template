@@ -65,9 +65,17 @@ function imageClicked(event) {
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 }
 
+document.addEventListener('touchmove', function(event) {
+    event.preventDefault(); // Prevent all movement
+}, { passive: false });
+
 document.addEventListener('touchstart', function(event) {
-    event.preventDefault(); // Prevent default actions globally
-}, { passive: false }); // Set passive to false to allow preventDefault
+    event.preventDefault(); // Prevent default touch actions
+}, { passive: false });
+
+document.getElementById('clickable-image').addEventListener('touchstart', function(event) {
+    imageClicked(event); // Call your click handling function
+});
 
 
 function updateLevel() {
