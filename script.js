@@ -129,7 +129,7 @@ function showTab(tabId) {
     document.getElementById(tabId).classList.add('active');
     document.getElementById(tabId + '-btn').classList.add('active-tab');
 }
-
+window.onload = resetGame();
 window.onload = loadCounter;
 
 function playClickSound() {
@@ -168,9 +168,5 @@ function resetGame() {
     updateLevelDisplay();
 }
 
-window.onload = function() {
-    resetGame(); // Resets the game data when the page loads
-    loadCounter(); // Load any existing data if necessary
-};
 
 Telegram.WebApp.setHeaderColor('secondary_bg_color');
