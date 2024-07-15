@@ -13,16 +13,6 @@ Telegram.WebApp.ready(() => {
     Telegram.WebApp.expand();
 });
 
-// Prevent default touch gestures
-document.addEventListener('touchstart', preventDefaultGesture, { passive: false });
-document.addEventListener('touchmove', preventDefaultGesture, { passive: false });
-
-function preventDefaultGesture(event) {
-    if (event.touches.length > 1) {
-        event.preventDefault();
-    }
-}
-
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');
     const savedEnergy = localStorage.getItem('kimchiEnergy');
@@ -144,19 +134,25 @@ function updateEnergyBar() {
     energyValue.innerText = energy;
 }
 
+function rechargeEnergy() {
+    const now = Date.now();
+    const elapsedTime = now - lastUpdateTime;
+    const rechargeAmount = Math.floor(elapsedTime / rechargeInterval) * energyRechargeRate;
+
+    if (rechargeAmount > 0) {
+        energy = Math.min(energy + rechargeAmount, maxEnergy); // Cap energy at max
+        lastUpdateTime = now; // Update the last update time
+        updateEnergyBar();
+        saveCounter(); // Save the updated energy
+    }
+}
+
 function startRechargeTimer() {
-    setInterval(() => {
-        if (energy < maxEnergy) {
-            energy += energyRechargeRate;
-            energy = Math.min(energy, maxEnergy); // Cap energy at max
-            updateEnergyBar(); // Update energy bar display
-            saveCounter(); // Save updated energy
-        }
-    }, rechargeInterval);
+    setInterval(rechargeEnergy, rechargeInterval);
 }
 
 function playClickSound() {
-    const audio = new Audio('click.mp3'); // Path to the sound file
+    const audio = new Audio('./assets/click.mp3'); // Ensure the correct path to the sound file
     audio.play().catch(error => console.error('Error playing sound:', error));
 }
 
