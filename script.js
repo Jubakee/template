@@ -205,6 +205,9 @@ function disableSwipeDownGesture() {
         isTouching = true; // Set flag when touching
         if (event.touches.length > 1) {
             event.preventDefault(); // Prevent default for multi-touch
+        } else {
+            // Prevent default for the first touch to avoid minimizing
+            event.preventDefault();
         }
     }, { passive: false });
 
@@ -221,6 +224,7 @@ function disableSwipeDownGesture() {
 
 // Call the function to disable swipe down
 disableSwipeDownGesture();
+
 
 // function resetGame() {
 //     count = 0;
