@@ -174,6 +174,10 @@ function provideFeedback(touches, coinsPerClick) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    Telegram.WebApp.expand(); // Expand the web app to full height
+});
+
 
 // function resetGame() {
 //     count = 0;
