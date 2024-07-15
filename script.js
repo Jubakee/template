@@ -197,3 +197,13 @@ window.addEventListener('load', () => {
 
 
 window.addEventListener('beforeunload', saveCounter);
+
+function preventDefaultTouchBehavior() {
+    document.addEventListener('touchstart', (event) => {
+        // Prevent default touch behavior
+        event.preventDefault();
+    }, { passive: false });
+}
+
+// Call the function to prevent default touch behavior
+preventDefaultTouchBehavior();

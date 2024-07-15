@@ -10,6 +10,8 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+    touch-action: manipulation; /* Prevent touch actions that might interfere */
+    overflow: hidden; /* Prevent scrolling */
 }
 
 main {
