@@ -10,7 +10,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    touch-action: manipulation; /* Prevent touch actions that might interfere */
+    touch-action: none;
     overflow: hidden; /* Prevent scrolling */
 }
 

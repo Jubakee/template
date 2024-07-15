@@ -203,21 +203,17 @@ let isTouching = false;
 function disableSwipeDownGesture() {
     document.addEventListener('touchstart', (event) => {
         isTouching = true; // Set flag when touching
-        if (event.touches.length > 1) {
-            event.preventDefault(); // Prevent default for multi-touch
-        } else {
-            // Prevent default for the first touch to avoid minimizing
-            event.preventDefault();
-        }
+        // Prevent default action on the first touch
+        event.preventDefault();
     }, { passive: false });
 
     document.addEventListener('touchmove', (event) => {
         if (isTouching) {
-            event.preventDefault(); // Prevent default scrolling behavior
+            event.preventDefault(); // Prevent scrolling
         }
     }, { passive: false });
 
-    document.addEventListener('touchend', () => {
+    document.addEventListener('touchend', (event) => {
         isTouching = false; // Reset flag when touch ends
     });
 }
