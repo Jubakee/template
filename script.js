@@ -8,12 +8,6 @@ let level = 1; // Starting level
 const levelUpThreshold = 5000; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
-// Function to expand the Telegram Web App to full height
-window.onload = function() {
-    Telegram.WebApp.ready(() => {
-        Telegram.WebApp.expand();
-    });
-};
 
 
 function loadCounter() {
@@ -197,6 +191,9 @@ function resetGame() {
 }
 
 window.onload = function() {
+    Telegram.WebApp.ready(() => {
+        Telegram.WebApp.expand();
+    });
     resetGame();
     loadCounter();
     startRechargeTimer();
@@ -204,3 +201,9 @@ window.onload = function() {
 };
 
 
+// // Function to expand the Telegram Web App to full height
+// window.onload = function() {
+//     Telegram.WebApp.ready(() => {
+//         Telegram.WebApp.expand();
+//     });
+// };
