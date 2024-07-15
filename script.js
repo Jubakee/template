@@ -198,12 +198,22 @@ window.addEventListener('load', () => {
 
 window.addEventListener('beforeunload', saveCounter);
 
-function preventDefaultTouchBehavior() {
-    document.addEventListener('touchstart', (event) => {
-        // Prevent default touch behavior
-        event.preventDefault();
+function disableSwipeDownGesture() {
+    window.addEventListener('touchmove', (event) => {
+        if (event.touches.length > 0) {
+            // Prevent default action if the user is trying to scroll down or pinch zoom
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    window.addEventListener('touchstart', (event) => {
+        // Prevent default zoom behavior
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
     }, { passive: false });
 }
 
-// Call the function to prevent default touch behavior
-preventDefaultTouchBehavior();
+// Call the function to disable swipe down
+disableSwipeDownGesture();
+
