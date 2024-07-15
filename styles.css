@@ -1,15 +1,23 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 body {
     background-color: #00000D;
     color: white;
     font: 12px/18px "Comic Sans MS", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    height: 100vh; /* Ensure the body takes full viewport height */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    overflow: hidden; /* Prevent scrolling */
 }
 
 main {

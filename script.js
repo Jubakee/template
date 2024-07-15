@@ -5,12 +5,11 @@ const energyRechargeRate = 1; // Energy recharge rate
 const rechargeInterval = 30000; // Recharge every 30 seconds
 let lastUpdateTime = Date.now(); // Track last update time
 let level = 1; // Starting level
-const levelUpThreshold = 500; // Coins needed to level up
+const levelUpThreshold = 5000; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
 // Function to expand the Telegram Web App to full height
 function expandWebApp() {
-    // Ensure Telegram WebApp is ready before attempting to expand
     Telegram.WebApp.ready(() => {
         Telegram.WebApp.expand();
     });
@@ -156,20 +155,29 @@ function startRechargeTimer() {
 
 function playClickSound() {
     const audio = new Audio('./assets/click.mp3'); // Ensure the correct path to the sound file
-    audio.play().catch(error => console.error('Error playing sound:', error));
+    audio.play().catch(error => console.error("Failed to play sound:", error));
 }
 
 function provideFeedback(touches, amount) {
-    for (let touch of touches) {
-        createFeedback(touch.clientX, touch.clientY, amount); // Pass amount to createFeedback
+    for (const touch of touches) {
+        const x = touch.clientX;
+        const y = touch.clientY;
+        createFeedback(x, y, amount); // Pass the amount to createFeedback
     }
 }
 
-// Attach event listeners for load and unload events
-window.addEventListener('load', () => {
-    loadCounter();
-    startRechargeTimer(); // Start the recharge timer
-    expandWebApp(); // Expand the Telegram Web App to full height
-});
+function showTab(tabId) {
+    document.querySelectorAll('main').forEach(main => {
+        main.classList.remove('active');
+    });
+    document.getElementById(tabId).classList.add('active');
 
-window.addEventListener('beforeunload', saveCounter);
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active-tab');
+    });
+    document.getElementById(`${tabId}-btn`).classList.add('active-tab');
+}
+
+expandWebApp();
+loadCounter();
+startRechargeTimer();
