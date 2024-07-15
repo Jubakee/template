@@ -167,16 +167,25 @@ function provideFeedback(touches, amount) {
     }
 }
 
+let isTouching = false;
+
 function disableSwipeDownGesture() {
-    window.addEventListener('touchstart', (event) => {
+    document.addEventListener('touchstart', (event) => {
+        isTouching = true; // Set flag when touching
         if (event.touches.length > 1) {
             event.preventDefault(); // Prevent default for multi-touch
         }
     }, { passive: false });
 
-    window.addEventListener('touchmove', (event) => {
-        event.preventDefault(); // Prevent default scrolling behavior
+    document.addEventListener('touchmove', (event) => {
+        if (isTouching) {
+            event.preventDefault(); // Prevent default scrolling behavior
+        }
     }, { passive: false });
+
+    document.addEventListener('touchend', () => {
+        isTouching = false; // Reset flag when touch ends
+    });
 }
 
 // Call the function to disable swipe down
