@@ -18,6 +18,32 @@ let coinsPerClick = 1; // Coins earned per click
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
 
+function showTab(tabId) {
+    // Hide all tabs
+    const tabs = document.querySelectorAll('main');
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Show the selected tab
+    const activeTab = document.getElementById(tabId);
+    activeTab.classList.add('active');
+
+    // Update active tab class for footer buttons
+    const buttons = document.querySelectorAll('.tab');
+    buttons.forEach(button => {
+        button.classList.remove('active-tab');
+    });
+    document.getElementById(tabId + '-btn').classList.add('active-tab');
+}
+
+// Attach event listeners for tabs
+document.getElementById('tab1-btn').addEventListener('click', () => showTab('tab1'));
+document.getElementById('tab2-btn').addEventListener('click', () => showTab('tab2'));
+document.getElementById('tab3-btn').addEventListener('click', () => showTab('tab3'));
+document.getElementById('tab4-btn').addEventListener('click', () => showTab('tab4'));
+
+
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');
     const savedEnergy = localStorage.getItem('kimchiEnergy');
@@ -191,10 +217,26 @@ function disableSwipeDownGesture() {
 // Call the function to disable swipe down
 disableSwipeDownGesture();
 
+function resetGame() {
+    count = 0;
+    energy = 5000; // Reset energy to starting value
+    level = 1; // Reset level to starting value
+    coinsPerClick = 1; // Reset coins per click
+
+    // Clear saved data from local storage
+    localStorage.removeItem('kimchiCounter');
+    localStorage.removeItem('kimchiEnergy');
+    localStorage.removeItem('lastUpdateTime');
+
+    // Update the UI
+    document.getElementById('count').innerText = count;
+    updateEnergyBar();
+    updateLevelDisplay();
+}
 
 // Attach event listeners for load event
 window.addEventListener('load', () => {
-    //expandWebApp(); // Expand the Telegram Web App to full height
+    resetGame();
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
 });
