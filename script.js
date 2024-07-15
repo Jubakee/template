@@ -165,6 +165,20 @@ function provideFeedback(touches, amount) {
     }
 }
 
+// Function to prevent swipe down gesture
+function disableSwipeDownGesture() {
+    window.addEventListener('touchmove', (event) => {
+        if (event.touches.length > 0) {
+            // Prevent the default action if the user is trying to scroll down
+            event.preventDefault();
+        }
+    }, { passive: false }); // Make sure to set passive to false
+}
+
+// Call the function to disable swipe down
+disableSwipeDownGesture();
+
+
 // Attach event listeners for load event
 window.addEventListener('load', () => {
     expandWebApp(); // Expand the Telegram Web App to full height
@@ -178,5 +192,6 @@ Telegram.WebApp.onEvent('visibilityChanged', (visibility) => {
         expandWebApp();
     }
 });
+
 
 window.addEventListener('beforeunload', saveCounter);
