@@ -65,6 +65,12 @@ function imageClicked(event) {
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 }
 
+document.getElementById('clickable-image').addEventListener('touchstart', function(event) {
+    event.preventDefault(); // Prevent default touch behavior
+    imageClicked(event); // Call your click handling function
+});
+
+
 function updateLevel() {
     while (count >= level * levelUpThreshold) {
         level++;
