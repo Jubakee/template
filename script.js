@@ -195,7 +195,7 @@ function resetGame() {
     updateLevelDisplay();
 }
 
-resetGame();
+window.onload = resetGame();
 expandWebApp();
 loadCounter();
 startRechargeTimer();
