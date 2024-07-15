@@ -151,6 +151,9 @@ function showTab(tabId) {
     document.getElementById(tabId).classList.add('active');
     document.getElementById(tabId + '-btn').classList.add('active-tab');
 }
+
+
+window.onload = resetGame();
 window.onload = loadCounter;
 
 function playClickSound() {
@@ -172,22 +175,22 @@ function provideFeedback(touches, coinsPerClick) {
 }
 
 
-// function resetGame() {
-//     count = 0;
-//     energy = 5000; // Reset energy to starting value
-//     level = 1; // Reset level to starting value
-//     coinsPerClick = 1; // Reset coins per click
+function resetGame() {
+    count = 0;
+    energy = 5000; // Reset energy to starting value
+    level = 1; // Reset level to starting value
+    coinsPerClick = 1; // Reset coins per click
 
-//     // Clear saved data from local storage
-//     localStorage.removeItem('kimchiCounter');
-//     localStorage.removeItem('kimchiEnergy');
-//     localStorage.removeItem('lastUpdateTime');
+    // Clear saved data from local storage
+    localStorage.removeItem('kimchiCounter');
+    localStorage.removeItem('kimchiEnergy');
+    localStorage.removeItem('lastUpdateTime');
 
-//     // Update the UI
-//     document.getElementById('count').innerText = count;
-//     updateEnergyBar();
-//     updateLevelDisplay();
-// }
+    // Update the UI
+    document.getElementById('count').innerText = count;
+    updateEnergyBar();
+    updateLevelDisplay();
+}
 
 
 Telegram.WebApp.setHeaderColor('secondary_bg_color');
