@@ -76,11 +76,6 @@ function saveCounter() {
 }
 
 function imageClicked(event) {
-
-    if (navigator.vibrate) {
-        navigator.vibrate(100); // Vibrate for 100 milliseconds
-    }
-    
     event.preventDefault(); // Prevent default behavior
     const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
     const touchCount = touches.length;
@@ -116,6 +111,11 @@ function imageClicked(event) {
         cabbageImage.classList.remove('clicked');
     }, 300); // Match this duration with your CSS animation duration
 }
+
+document.getElementById("clickable-image").addEventListener("touchstart", function(event) {
+    imageClicked(event);
+    navigator.vibrate(100); // Vibrate on touch
+});
 
 function updateLevel() {
     while (count >= level * levelUpThreshold) {
