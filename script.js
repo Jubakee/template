@@ -65,23 +65,6 @@ function imageClicked(event) {
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 }
 
-document.addEventListener('touchmove', function(event) {
-    event.preventDefault(); // Prevent all movement
-}, { passive: false });
-
-document.addEventListener('touchstart', function(event) {
-    event.preventDefault(); // Prevent default touch actions
-}, { passive: false });
-
-document.getElementById('clickable-image').addEventListener('touchstart', function(event) {
-    event.preventDefault(); // Prevent default behavior
-    if (event.target.closest('#clickable-image')) {
-        imageClicked(event); // Only call if touching the cabbage image
-    }
-});
-
-
-
 function updateLevel() {
     while (count >= level * levelUpThreshold) {
         level++;
@@ -167,5 +150,27 @@ function provideFeedback(touches, coinsPerClick) {
     }
 }
 
+
+function resetGame() {
+    count = 0;
+    energy = 5000; // Reset energy to starting value
+    level = 1; // Reset level to starting value
+    coinsPerClick = 1; // Reset coins per click
+
+    // Clear saved data from local storage
+    localStorage.removeItem('kimchiCounter');
+    localStorage.removeItem('kimchiEnergy');
+    localStorage.removeItem('lastUpdateTime');
+
+    // Update the UI
+    document.getElementById('count').innerText = count;
+    updateEnergyBar();
+    updateLevelDisplay();
+}
+
+window.onload = function() {
+    resetGame(); // Resets the game data when the page loads
+    loadCounter(); // Load any existing data if necessary
+};
 
 Telegram.WebApp.setHeaderColor('secondary_bg_color');
