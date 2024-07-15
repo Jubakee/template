@@ -8,13 +8,15 @@ let level = 1; // Starting level
 const levelUpThreshold = 500; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
-// Function to expand the Telegram Web App to full height
-function expandWebApp() {
-    // Ensure Telegram WebApp is ready before attempting to expand
-    Telegram.WebApp.ready(() => {
-        Telegram.WebApp.expand();
-    });
-}
+// // Function to expand the Telegram Web App to full height
+// function expandWebApp() {
+//     // Ensure Telegram WebApp is ready before attempting to expand
+//     Telegram.WebApp.ready(() => {
+//         Telegram.WebApp.expand();
+//     });
+// }
+Telegram.WebApp.ready();
+Telegram.WebApp.expand();
 
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');
@@ -181,17 +183,17 @@ disableSwipeDownGesture();
 
 // Attach event listeners for load event
 window.addEventListener('load', () => {
-    expandWebApp(); // Expand the Telegram Web App to full height
+    //expandWebApp(); // Expand the Telegram Web App to full height
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
 });
 
-// Ensure that the expand function is also called when the Web App is initialized
-Telegram.WebApp.onEvent('visibilityChanged', (visibility) => {
-    if (visibility === 'visible') {
-        expandWebApp();
-    }
-});
+// // Ensure that the expand function is also called when the Web App is initialized
+// Telegram.WebApp.onEvent('visibilityChanged', (visibility) => {
+//     if (visibility === 'visible') {
+//         expandWebApp();
+//     }
+// });
 
 
 window.addEventListener('beforeunload', saveCounter);
