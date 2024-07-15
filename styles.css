@@ -18,7 +18,7 @@ main {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    touch-action: none;
+    touch-action: manipulation; /* Only allow manipulation actions */
 }
 
 .active {

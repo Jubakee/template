@@ -65,10 +65,9 @@ function imageClicked(event) {
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 }
 
-document.getElementById('clickable-image').addEventListener('touchstart', function(event) {
-    event.preventDefault(); // Prevent default touch behavior
-    imageClicked(event); // Call your click handling function
-});
+document.addEventListener('touchstart', function(event) {
+    event.preventDefault(); // Prevent default actions globally
+}, { passive: false }); // Set passive to false to allow preventDefault
 
 
 function updateLevel() {
