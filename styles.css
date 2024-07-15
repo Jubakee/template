@@ -35,7 +35,6 @@ main {
     color: white;
     line-height: 1;
     transition: transform 0.3s;
-    margin-top: 8px;
 }
 
 #clickable-image {
@@ -87,7 +86,6 @@ footer {
     display: flex;
     justify-content: space-around;
     background-color: rgba(0, 0, 0, 0.8);
-    padding: 10px 0;
     position: relative;
     bottom: 0;
     width: 100%;
@@ -105,7 +103,6 @@ footer {
 
 .tab img {
     width: 32px;
-    margin-bottom: 5px;
     border: none;
 }
 
@@ -135,9 +132,8 @@ footer {
 }
 
 #energy-bar-container {
-    margin-bottom: 8px;
     text-align: center;
-    width: 100%;
+    width: 50%;
 }
 
 #energy-fill {
