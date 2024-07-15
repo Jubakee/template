@@ -8,10 +8,13 @@ let level = 1; // Starting level
 const levelUpThreshold = 500; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
-// Ensure the Telegram Web App expands to full height
-Telegram.WebApp.ready(() => {
-    Telegram.WebApp.expand();
-});
+// Function to expand the Telegram Web App to full height
+function expandWebApp() {
+    // Ensure Telegram WebApp is ready before attempting to expand
+    Telegram.WebApp.ready(() => {
+        Telegram.WebApp.expand();
+    });
+}
 
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');
@@ -166,6 +169,7 @@ function provideFeedback(touches, amount) {
 window.addEventListener('load', () => {
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
+    expandWebApp(); // Expand the Telegram Web App to full height
 });
 
 window.addEventListener('beforeunload', saveCounter);
