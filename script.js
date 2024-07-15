@@ -9,11 +9,12 @@ const levelUpThreshold = 5000; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
 // Function to expand the Telegram Web App to full height
-function expandWebApp() {
+window.onload = function() {
     Telegram.WebApp.ready(() => {
         Telegram.WebApp.expand();
     });
-}
+};
+
 
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');
