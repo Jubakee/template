@@ -58,12 +58,24 @@ function imageClicked(event) {
     updateEnergyBar(); // Update energy bar display
     updateLevel(); // Check for level up
 
+    // Reset and play animation
+    const cabbageImage = document.querySelector('#clickable-image img');
+    cabbageImage.classList.remove('clicked'); // Reset any existing animation
+    void cabbageImage.offsetWidth; // Trigger reflow
+    cabbageImage.classList.add('clicked'); // Add highlight class for animation
+
     animateCounter(document.getElementById('count'));
 
     // Play sound and provide haptic feedback
     playClickSound();
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
+
+    // Remove the highlight class after animation duration
+    setTimeout(() => {
+        cabbageImage.classList.remove('clicked');
+    }, 300); // Match this duration with your CSS animation duration
 }
+
 
 function updateLevel() {
     while (count >= level * levelUpThreshold) {
@@ -90,18 +102,28 @@ function createFeedback(x, y, amount) {
     const feedback = document.createElement('div');
     feedback.className = 'feedback';
     feedback.innerText = `+${amount}`; // Display the amount of coins
+    feedback.style.position = 'absolute'; // Positioning for animation
     feedback.style.left = `${x}px`;
-    feedback.style.top = `${y - 30}px`;
+    feedback.style.top = `${y}px`;
+    feedback.style.opacity = 1; // Start fully visible
     document.body.appendChild(feedback);
 
-    // Fade out effect
-    setTimeout(() => {
-        feedback.style.opacity = 0;
-    }, 300);
+    // Animation for moving up and fading out
+    feedback.animate([
+        { transform: 'translateY(0)', opacity: 1 }, // Start position
+        { transform: 'translateY(-30px)', opacity: 0 } // End position
+    ], {
+        duration: 600, // Total duration of the animation
+        easing: 'ease-out',
+        fill: 'forwards' // Retain the final state
+    });
+
+    // Remove the feedback element after animation
     setTimeout(() => {
         feedback.remove();
     }, 600);
 }
+
 function updateEnergyBar() {
     const energyFill = document.getElementById('energy-fill');
     const energyValue = document.getElementById('energy-count');
