@@ -2,18 +2,16 @@ let count = 0;
 let energy = 5000; // Starting energy value
 const maxEnergy = 5000; // Maximum energy value
 const energyRechargeRate = 1; // Energy recharge rate
-const rechargeInterval = 3000; // Recharge every 3 seconds
+const rechargeInterval = 30000; // Recharge every 30 seconds
 let lastUpdateTime = Date.now(); // Track last update time
 let level = 1; // Starting level
 const levelUpThreshold = 500; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
-Telegram.WebApp.onEvent('themeChanged', expandWebApp);
-Telegram.WebApp.ready(expandWebApp);
-
-function expandWebApp() {
+// Ensure the Telegram Web App expands to full height
+Telegram.WebApp.ready(() => {
     Telegram.WebApp.expand();
-}
+});
 
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');

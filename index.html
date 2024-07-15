@@ -13,6 +13,7 @@
     <main id="tab1" class="active">
         <div id="header">
             <div style="display: flex; align-items: center;">
+                <!-- <img src="./assets/cabbagecoin.png" alt="coin icon" id="counter-icon"> -->
                 <span id="counter-icon">💵</span>
                 <span id="count" class="counter-value">0</span>
             </div>
@@ -27,35 +28,20 @@
                 <img width="240" src="./assets/cabbagecoin.png" alt="cabbage">
             </button>
         </div>
-        
-        <div id="energy-bar-container">
-            <div id="energy-bar" style="width: 100%; background-color: red; height: 20px; border-radius: 5px;">
-                <div id="energy-fill" style="width: 100%;"></div>
-            </div>
-            <div id="energy-value-container" style="padding: 20px; border-radius: 5px;">
-                <span id="energy-value">
-                    <span class="energy-emoji">⚡</span>
-                    <span id="energy-count">5000</span> / <span id="max-energy">5000</span>
-                </span>
-            </div>
+    </main>
+
+    <div id="energy-bar-container">
+        <div id="energy-bar" style="width: 100%; background-color: red; height: 20px; border-radius: 5px;">
+            <div id="energy-fill" style="width: 100%;"></div>
         </div>
-    </main>
-
-    <main id="tab2">
-        <h1>Garden Tab</h1>
-        <!-- Add your content for Garden tab here -->
-    </main>
-
-    <main id="tab3">
-        <h1>Shop Tab</h1>
-        <!-- Add your content for Shop tab here -->
-    </main>
-
-    <main id="tab4">
-        <h1>Earn Tab</h1>
-        <!-- Add your content for Earn tab here -->
-    </main>
-
+        <div id="energy-value-container" style="padding: 20px; border-radius: 5px;">
+            <span id="energy-value">
+                <span class="energy-emoji">⚡</span>
+                <span id="energy-count">5000</span> / <span id="max-energy">5000</span>
+            </span>
+        </div>
+    </div>
+    
     <footer>
         <div class="tab active-tab" onclick="showTab('tab1');" id="tab1-btn">
             <img src="./assets/icon1.png" alt="Click icon">
