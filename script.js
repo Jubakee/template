@@ -8,6 +8,13 @@ let level = 1; // Starting level
 const levelUpThreshold = 500; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
+Telegram.WebApp.onEvent('themeChanged', expandWebApp);
+Telegram.WebApp.ready(expandWebApp);
+
+function expandWebApp() {
+    Telegram.WebApp.expand();
+}
+
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');
     const savedEnergy = localStorage.getItem('kimchiEnergy');
@@ -76,7 +83,6 @@ function imageClicked(event) {
     }, 300); // Match this duration with your CSS animation duration
 }
 
-
 function updateLevel() {
     while (count >= level * levelUpThreshold) {
         level++;
@@ -89,7 +95,6 @@ function updateLevelDisplay() {
     const levelDisplay = document.getElementById('level-value');
     levelDisplay.innerText = `Lvl: ${level}`; // Correctly update the displayed level
 }
-
 
 function animateCounter(countElement) {
     countElement.style.transform = 'scale(1.2)'; // Scale up
@@ -128,70 +133,41 @@ function updateEnergyBar() {
     const energyFill = document.getElementById('energy-fill');
     const energyValue = document.getElementById('energy-count');
     energyFill.style.width = `${(energy / maxEnergy) * 100}%`;
-    energyValue.innerText = energy; // Update the energy value text
+    energyValue.innerText = energy;
 }
 
 function rechargeEnergy() {
-    if (energy < maxEnergy) {
-        energy += energyRechargeRate;
-        energy = Math.min(energy, maxEnergy); // Cap energy at max
+    const now = Date.now();
+    const elapsedTime = now - lastUpdateTime;
+    const rechargeAmount = Math.floor(elapsedTime / rechargeInterval) * energyRechargeRate;
+
+    if (rechargeAmount > 0) {
+        energy = Math.min(energy + rechargeAmount, maxEnergy); // Cap energy at max
+        lastUpdateTime = now; // Update the last update time
         updateEnergyBar();
+        saveCounter(); // Save the updated energy
     }
 }
 
-setInterval(rechargeEnergy, rechargeInterval);
-
-function showTab(tabId) {
-    document.querySelectorAll('main').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active-tab');
-    });
-    document.getElementById(tabId).classList.add('active');
-    document.getElementById(tabId + '-btn').classList.add('active-tab');
+function startRechargeTimer() {
+    setInterval(rechargeEnergy, rechargeInterval);
 }
-
-window.onload = Telegram.WebApp.expand(); // Expand the web app to full height
-// window.onload = resetGame();
-window.onload = loadCounter;
 
 function playClickSound() {
-    const audio = new Audio('./assets/click-sound.mp3');
-    audio.play();
+    const audio = new Audio('./assets/click.mp3'); // Ensure the correct path to the sound file
+    audio.play().catch(error => console.error('Error playing sound:', error));
 }
 
-function provideFeedback(touches, coinsPerClick) {
-    const cabbageImage = document.querySelector('#clickable-image img');
-    cabbageImage.classList.add('clicked');
-    setTimeout(() => {
-        cabbageImage.classList.remove('clicked');
-    }, 300);
-
-    // Create feedback for each touch
-    for (let i = 0; i < touches.length; i++) {
-        createFeedback(touches[i].clientX, touches[i].clientY, coinsPerClick); // Pass coinsPerClick
+function provideFeedback(touches, amount) {
+    for (let touch of touches) {
+        createFeedback(touch.clientX, touch.clientY, amount); // Pass amount to createFeedback
     }
 }
 
+// Attach event listeners for load and unload events
+window.addEventListener('load', () => {
+    loadCounter();
+    startRechargeTimer(); // Start the recharge timer
+});
 
-
-// function resetGame() {
-//     count = 0;
-//     energy = 5000; // Reset energy to starting value
-//     level = 1; // Reset level to starting value
-//     coinsPerClick = 1; // Reset coins per click
-
-//     // Clear saved data from local storage
-//     localStorage.removeItem('kimchiCounter');
-//     localStorage.removeItem('kimchiEnergy');
-//     localStorage.removeItem('lastUpdateTime');
-
-//     // Update the UI
-//     document.getElementById('count').innerText = count;
-//     updateEnergyBar();
-//     updateLevelDisplay();
-// }
-
-
-Telegram.WebApp.setHeaderColor('secondary_bg_color');
+window.addEventListener('beforeunload', saveCounter);
