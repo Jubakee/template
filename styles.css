@@ -1,6 +1,6 @@
 body {
-    background-color: #00000D;
-    color: white;
+    background-color: #FFFFFF;
+    color: black;
     font: 12px/18px "Comic Sans MS", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
     margin: 0;
     padding: 0;
@@ -33,17 +33,31 @@ main {
 }
 
 .counter-value {
-    color: white;
+    color: black;
     line-height: 1;
     transition: transform 0.3s;
     margin-top: 8px;
 }
 
 #clickable-image {
-    border: none;
-    background: none;
-    padding: 0;
+    display: flex; /* Center the image in the container */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    border: none; /* Remove any border */
+    background: none; /* Remove any background */
+    padding: 0; /* Remove padding */
+    outline: none; /* Remove focus outline */
 }
+
+#clickable-image img {
+    width: 320px; /* Set a fixed width */
+    height: 320px; /* Set a fixed height */
+    border-radius: 50%; /* Make the image round */
+    transition: transform 0.3s; /* Smooth scaling effect */
+    pointer-events: auto; /* Ensure pointer events work */
+}
+
+
 
 #image-container {
     display: flex;
@@ -57,7 +71,7 @@ main {
     position: absolute;
     font-size: 32px;
     font-weight: bold;
-    color: white;
+    color: black;
     opacity: 1;
     transition: opacity 0.3s, transform 0.5s;
     pointer-events: none;
@@ -76,7 +90,7 @@ main {
 footer {
     display: flex;
     justify-content: space-around;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: white;
     padding: 10px 0;
     position: relative;
     bottom: 0;

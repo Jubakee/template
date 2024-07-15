@@ -40,15 +40,15 @@ function saveCounter() {
 }
 
 function imageClicked(event) {
+    event.preventDefault(); // Prevent default behavior
+    const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
+    const touchCount = touches.length;
+
     if (energy <= 0) {
         alert("Not enough energy to click the cabbage!");
         return; // Prevent clicking if energy is 0
     }
 
-    const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
-    const touchCount = touches.length;
-
-    // Only proceed if the touch is valid
     count += touchCount * coinsPerClick; // Increment count based on the number of touches
     energy -= touchCount; // Reduce energy with each click
     energy = Math.max(energy, 0); // Prevent negative energy
@@ -64,7 +64,6 @@ function imageClicked(event) {
     playClickSound();
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 }
-
 
 document.addEventListener('touchmove', function(event) {
     event.preventDefault(); // Prevent all movement
