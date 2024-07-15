@@ -5,7 +5,7 @@ const energyRechargeRate = 1; // Energy recharge rate
 const rechargeInterval = 30000; // Recharge every 30 seconds
 let lastUpdateTime = Date.now(); // Track last update time
 let level = 1; // Starting level
-const levelUpThreshold = 500; // Coins needed to level up
+const levelUpThreshold = 5000; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
 // // Function to expand the Telegram Web App to full height
@@ -222,26 +222,26 @@ function disableSwipeDownGesture() {
 // Call the function to disable swipe down
 disableSwipeDownGesture();
 
-function resetGame() {
-    count = 0;
-    energy = 5000; // Reset energy to starting value
-    level = 1; // Reset level to starting value
-    coinsPerClick = 1; // Reset coins per click
+// function resetGame() {
+//     count = 0;
+//     energy = 5000; // Reset energy to starting value
+//     level = 1; // Reset level to starting value
+//     coinsPerClick = 1; // Reset coins per click
 
-    // Clear saved data from local storage
-    localStorage.removeItem('kimchiCounter');
-    localStorage.removeItem('kimchiEnergy');
-    localStorage.removeItem('lastUpdateTime');
+//     // Clear saved data from local storage
+//     localStorage.removeItem('kimchiCounter');
+//     localStorage.removeItem('kimchiEnergy');
+//     localStorage.removeItem('lastUpdateTime');
 
-    // Update the UI
-    document.getElementById('count').innerText = count;
-    updateEnergyBar();
-    updateLevelDisplay();
-}
+//     // Update the UI
+//     document.getElementById('count').innerText = count;
+//     updateEnergyBar();
+//     updateLevelDisplay();
+// }
 
 // Attach event listeners for load event
 window.addEventListener('load', () => {
-    resetGame();
+    // resetGame();
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
 });
