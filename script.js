@@ -178,6 +178,24 @@ function showTab(tabId) {
     document.getElementById(`${tabId}-btn`).classList.add('active-tab');
 }
 
+function resetGame() {
+    count = 0;
+    energy = 5000; // Reset energy to starting value
+    level = 1; // Reset level to starting value
+    coinsPerClick = 1; // Reset coins per click
+
+    // Clear saved data from local storage
+    localStorage.removeItem('kimchiCounter');
+    localStorage.removeItem('kimchiEnergy');
+    localStorage.removeItem('lastUpdateTime');
+
+    // Update the UI
+    document.getElementById('count').innerText = count;
+    updateEnergyBar();
+    updateLevelDisplay();
+}
+
+resetGame();
 expandWebApp();
 loadCounter();
 startRechargeTimer();
