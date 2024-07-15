@@ -167,14 +167,16 @@ function provideFeedback(touches, amount) {
     }
 }
 
-// Function to prevent swipe down gesture
 function disableSwipeDownGesture() {
-    window.addEventListener('touchmove', (event) => {
-        if (event.touches.length > 0) {
-            // Prevent the default action if the user is trying to scroll down
-            event.preventDefault();
+    window.addEventListener('touchstart', (event) => {
+        if (event.touches.length > 1) {
+            event.preventDefault(); // Prevent default for multi-touch
         }
-    }, { passive: false }); // Make sure to set passive to false
+    }, { passive: false });
+
+    window.addEventListener('touchmove', (event) => {
+        event.preventDefault(); // Prevent default scrolling behavior
+    }, { passive: false });
 }
 
 // Call the function to disable swipe down
@@ -198,22 +200,6 @@ window.addEventListener('load', () => {
 
 window.addEventListener('beforeunload', saveCounter);
 
-function disableSwipeDownGesture() {
-    window.addEventListener('touchmove', (event) => {
-        if (event.touches.length > 0) {
-            // Prevent default action if the user is trying to scroll down or pinch zoom
-            event.preventDefault();
-        }
-    }, { passive: false });
 
-    window.addEventListener('touchstart', (event) => {
-        // Prevent default zoom behavior
-        if (event.touches.length > 1) {
-            event.preventDefault();
-        }
-    }, { passive: false });
-}
 
-// Call the function to disable swipe down
-disableSwipeDownGesture();
 
