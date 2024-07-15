@@ -165,11 +165,18 @@ function provideFeedback(touches, amount) {
     }
 }
 
-// Attach event listeners for load and unload events
+// Attach event listeners for load event
 window.addEventListener('load', () => {
+    expandWebApp(); // Expand the Telegram Web App to full height
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
-    expandWebApp(); // Expand the Telegram Web App to full height
+});
+
+// Ensure that the expand function is also called when the Web App is initialized
+Telegram.WebApp.onEvent('visibilityChanged', (visibility) => {
+    if (visibility === 'visible') {
+        expandWebApp();
+    }
 });
 
 window.addEventListener('beforeunload', saveCounter);
