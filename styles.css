@@ -4,13 +4,12 @@ body {
     font: 12px/18px "Comic Sans MS", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh; /* Ensure the body takes full viewport height */
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    /* overflow: hidden; Prevent scrolling */
 }
 
 main {
@@ -26,8 +25,7 @@ main {
 }
 
 #counter-icon {
-    font-size: 24px;
-    margin-right: 8px;
+    width: 48px;
 }
 
 .counter-value {
@@ -53,10 +51,12 @@ main {
 
 .feedback {
     position: absolute;
-    font-size: 2rem; /* Adjust size as needed */
-    color: white; /* Change color to match your design */
-    pointer-events: none; /* Prevent interaction */
-    transition: opacity 0.6s ease-out; /* Optional for smoother fading */
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.3s, transform 0.5s;
+    pointer-events: none;
 }
 
 @keyframes cabbage-click {
@@ -66,19 +66,7 @@ main {
 }
 
 .clicked {
-    animation: scaleUp 0.3s ease forwards;
-}
-
-@keyframes scaleUp {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
+    animation: cabbage-click 0.3s ease;
 }
 
 footer {
@@ -118,24 +106,24 @@ footer {
 }
 
 #header {
-    margin-top: 16px;
+    margin-top: 8px;
 }
 
 #level-container {
     display: flex;
     align-items: center;
-    margin-top: 16px;
+    margin-top: 8px;
 }
 
 #level-icon {
     font-size: 24px; /* Adjust level icon size */
-    margin-right: 8px;
+    margin-right: 5px; /* Spacing between icon and text */
 }
 
 #energy-bar-container {
     margin-bottom: 32px;
     text-align: center;
-    width: 50%;
+    width: 75%;
 }
 
 #energy-fill {
@@ -143,4 +131,14 @@ footer {
     height: 100%;
     background-color: yellow;
     border-radius: 5px;
+}
+
+#energy-value {
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.energy-emoji {
+    font-size: 24px;
+    vertical-align: middle;
 }
