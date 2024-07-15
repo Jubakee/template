@@ -197,8 +197,9 @@ function resetGame() {
 
 window.onload = function() {
     resetGame();
-    expandWebApp();
     loadCounter();
     startRechargeTimer();
+    expandWebApp(); 
 };
+
 
