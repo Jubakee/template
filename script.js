@@ -7,6 +7,7 @@ let lastUpdateTime = Date.now(); // Track last update time
 let level = 1; // Starting level
 const levelUpThreshold = 5000; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
+let inventory = [];
 
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
@@ -16,11 +17,13 @@ function resetGame() {
     energy = 5000; // Reset energy to starting value
     level = 1; // Reset level to starting value
     coinsPerClick = 1; // Reset coins per click
-
+    inventory = [];
     // Clear saved data from local storage
     localStorage.removeItem('kimchiCounter');
     localStorage.removeItem('kimchiEnergy');
     localStorage.removeItem('lastUpdateTime');
+    localStorage.removeItem('inventory'); // Clear inventory from local storage
+
 
     // Update the UI
     document.getElementById('count').innerText = count;
@@ -31,14 +34,14 @@ function resetGame() {
 
 // Ensure event listeners are attached after content loads
 window.addEventListener('load', () => {
-    //resetGame();
+    resetGame();
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
     setupTabEventListeners(); // Setup tab event listeners
+    displayInventory();
 });
 
 function showTab(tabId) {
-
     // Hide all tabs
     const tabs = document.querySelectorAll('main');
     tabs.forEach(tab => {
@@ -55,6 +58,9 @@ function showTab(tabId) {
         button.classList.remove('active-tab');
     });
     document.getElementById(tabId + '-btn').classList.add('active-tab');
+
+    // Update header counter when switching tabs
+    document.getElementById('count').innerText = count; // Update header
 }
 
 // Attach event listeners for tabs with touch support
@@ -71,6 +77,34 @@ function setupTabEventListeners() {
         });
     });
 }
+
+function displayInventory() {
+    const inventoryList = document.getElementById('inventory-list');
+    inventoryList.innerHTML = ''; // Clear existing items
+
+    const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    inventory.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'inventory-item';
+        li.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="inventory-item-image" onclick="showItemPopup('${item.name}', '${item.image}')" />
+            <div class="inventory-item-title">${item.name}</div>
+        `;
+        inventoryList.appendChild(li);
+    });
+}
+
+function showItemPopup(name, image) {
+    document.getElementById('popup-title').innerText = name;
+    document.getElementById('popup-image').src = image;
+    document.getElementById('item-popup').style.display = 'block';
+}
+
+function closePopup() {
+    document.getElementById('item-popup').style.display = 'none';
+}
+
+
 
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');
@@ -223,5 +257,47 @@ function playClickSound() {
 function provideFeedback(touches, amount) {
     for (const touch of touches) {
         createFeedback(touch.clientX, touch.clientY, amount); // Pass amount to createFeedback
+    }
+}
+
+// Wait for the DOM to load before adding event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const purchaseButton = document.getElementById('purchase-hat-chest');
+    
+    if (purchaseButton) {
+        purchaseButton.addEventListener('click', handlePurchaseHatChest);
+    }
+});
+
+function handlePurchaseHatChest() {
+    const cost = 100; // Cost of the item
+    const savedCount = parseInt(localStorage.getItem('kimchiCounter'), 10) || 0;
+
+    if (savedCount >= cost) {
+        // Deduct coins
+        count = savedCount - cost;
+        localStorage.setItem('kimchiCounter', count);
+        
+        // Update inventory with item name and image URL
+        let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+        inventory.push({ name: 'Hat Chest', image: './assets/chest.png' }); // Update with your image path
+        localStorage.setItem('inventory', JSON.stringify(inventory));
+
+        // Update displayed count
+        document.getElementById('count').innerText = count;
+
+        // Display inventory
+        displayInventory();
+
+        // Telegram popup
+        const telegramMessage = "Purchase complete! Would you like to view your inventory?";
+        const userResponse = confirm(telegramMessage); // Replace with appropriate Telegram API call if needed
+
+        if (userResponse) {
+            // Logic to show inventory, e.g., switch to inventory tab
+            showTab('tab2'); // Assuming 'tab2' is your inventory tab ID
+        }
+    } else {
+        alert('Not enough coins!');
     }
 }

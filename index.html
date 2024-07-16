@@ -20,34 +20,43 @@
             <span id="level-value">Lvl: 1</span>
         </div>
     </div>
-    
-    <main id="tab1" class="active">        
+    <main id="tab1" class="active"> 
         <div id="image-container">
             <button id="clickable-image" onclick="imageClicked(event);" ontouchstart="imageClicked(event);">
                 <img width="320" src="./assets/cabbagecoin.png" alt="cabbage">
             </button>
         </div>
-
-        <div id="energy-bar-container">
-            <div id="energy-bar" style="width: 100%; background-color: red; height: 20px; border-radius: 5px;">
-                <div id="energy-fill" style="width: 100%;"></div>
-            </div>
-            <div id="energy-value-container" style="margin-bottom: 16px; border-radius: 5px; padding: 4px;">
-                <span id="energy-value">
-                    <span class="energy-emoji">⚡</span>
-                    <span id="energy-count">5000</span> / <span id="max-energy">5000</span>
-                </span>
-            </div>
-        </div>
         
+    <div id="energy-bar-container">
+        <div id="energy-bar" style="width: 100%; background-color: red; height: 20px; border-radius: 5px;">
+            <div id="energy-fill" style="width: 100%;"></div>
+        </div>
+        <div id="energy-value-container" style="margin-bottom: 16px; border-radius: 5px; padding: 4px;">
+            <span id="energy-value">
+                <span class="energy-emoji">⚡</span>
+                <span id="energy-count">5000</span> / <span id="max-energy">5000</span>
+            </span>
+        </div>
+    </div>
     </main>
 
     <main id="tab2">
-        <iframe src="avatar.html" style="width: 100%; height: 100%; border: none;"></iframe>
+        <h2>Inventory</h2>
+        <div id="inventory-container">
+            <ul id="inventory-list"></ul>
+        </div>
     </main>
+    
+    
 
-    <main id="tab3">
-        <iframe src="shop.html" style="width: 100%; height: 100%; border: none;"></iframe>
+    <main id="tab3">     
+        <h2>Shop</h2>
+            <div id="shop-items">
+                <div class="shop-item">
+                    <img src="assets/chest.png" alt="Hat Chest" class="shop-item-image">
+                    <button id="purchase-hat-chest" >Purchase (100 Coins)</button>
+                </div>
+            </div>
     </main>
     
 
@@ -56,8 +65,14 @@
         <p>Content for earning coins goes here.</p>
     </main>
 
-
-
+    <div id="item-popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <img id="popup-image" src="" alt="Item Image" />
+            <h2 id="popup-title"></h2>
+        </div>
+    </div>
+    
 
     <footer>
         <div class="tab active-tab" onclick="showTab('tab1');" id="tab1-btn">
@@ -80,5 +95,23 @@
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="script.js"></script>
+    <script>
+        function updateCounter(newCount) {
+            const countElement = document.getElementById('count');
+            if (countElement) {
+                countElement.innerText = newCount;
+            }
+        }
+    
+        // Load initial counter value from localStorage on page load
+        document.addEventListener('DOMContentLoaded', () => {
+    const savedCount = localStorage.getItem('kimchiCounter');
+    if (savedCount) {
+        updateCounter(savedCount);
+    }
+});
+
+    </script>
+    
 </body>
 </html>
