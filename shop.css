@@ -1,0 +1,38 @@
+main {
+    flex-grow: 1;
+    display: flex; /* Ensure it's using flex */
+    flex-direction: column; /* Align items vertically */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    padding: 20px; /* Add some padding */
+    text-align: center; /* Center text */
+    color: white; /* Ensure text color is visible */
+}
+
+.shop-item {
+    text-align: center; /* Center-align text */
+}
+
+.shop-item-title {
+    margin-top: 10px; /* Space between image and text */
+}
+
+.shop-item-image {
+    width: 100px; /* Set width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin: 10px 0; /* Add spacing above and below the image */
+}
+
+.shop-item button {
+    padding: 10px 15px;
+    background-color: red; /* Button background */
+    color: white; /* Button text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.shop-item button:hover {
+    background-color: darkgreen; /* Darker shade on hover */
+}

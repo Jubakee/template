@@ -1,6 +1,6 @@
 body {
-    background-color: #00000D;
-    color: white;
+    background-color: white;
+    color: black;
     font: 12px/18px "Comic Sans MS", "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
     margin: 0;
     padding: 0;
@@ -32,7 +32,7 @@ main {
 }
 
 .counter-value {
-    color: white;
+    color: black;
     line-height: 1;
     transition: transform 0.3s;
 }
@@ -54,7 +54,7 @@ main {
 .feedback {
     position: absolute;
     font-size: 2rem; /* Adjust size as needed */
-    color: white; /* Change color to match your design */
+    color: black; /* Change color to match your design */
     pointer-events: none; /* Prevent interaction */
     transition: opacity 0.6s ease-out; /* Optional for smoother fading */
 }
@@ -111,8 +111,9 @@ footer {
 }
 
 .active-tab {
-    background-color: green;
+    background-color: black;
     border-radius: 5px;
+    color: white;
 }
 
 #header {
@@ -132,7 +133,7 @@ footer {
 
 #energy-bar-container {
     text-align: center;
-    width: 50%;
+    width: 75%;
 }
 
 #energy-fill {
@@ -141,3 +142,4 @@ footer {
     background-color: yellow;
     border-radius: 5px;
 }
+
