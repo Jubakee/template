@@ -256,21 +256,12 @@ footer {
     max-height: 300px;
     width: auto;
     height: auto;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .stats-text {
-    background-color: #f0f0f0; /* Background color for the stats field */
-    border: 1px solid #ccc; /* Border */
-    border-radius: 5px; /* Rounded corners */
     padding: 10px; /* Inner spacing */
-    margin-bottom: 20px; /* Space below the stats */
-    font-size: 16px; /* Font size */
+    font-size: 18px; /* Font size */
     color: black; /* Text color */
-    min-height: 60px; /* Minimum height */
-    overflow: auto; /* Allow scrolling if content is too long */
 }
 
 .popup-content button {
