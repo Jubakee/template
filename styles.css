@@ -238,7 +238,7 @@ footer {
     margin: 20% auto; /* Centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Adjust width as needed */
+    width: 100%; /* Adjust width as needed */
     max-width: 500px; /* Maximum width */
     text-align: center; /* Center text and images */
     box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Add a subtle shadow */
@@ -246,11 +246,9 @@ footer {
 }
 
 .popup-content img {
-    max-width: 100%;
-    max-height: 300px; /* Adjust height as needed */
+    max-width: 50%;
     width: auto; /* Maintain aspect ratio */
     height: auto; /* Maintain aspect ratio */
-    margin-bottom: 20px; /* Space between image and title */
     border-radius: 10px; /* Add rounded corners */
     box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Add shadow to image */
 }
@@ -258,7 +256,7 @@ footer {
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
 }
 

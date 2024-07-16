@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function handlePurchaseHatChest() {
-    const cost = 100; // Cost of the item
+    const cost = 10; // Cost of the item
     const savedCount = parseInt(localStorage.getItem('kimchiCounter'), 10) || 0;
 
     if (savedCount >= cost) {
