@@ -34,7 +34,7 @@ function resetGame() {
 
 // Ensure event listeners are attached after content loads
 window.addEventListener('load', () => {
-    resetGame();
+    //resetGame();
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
     setupTabEventListeners(); // Setup tab event listeners
