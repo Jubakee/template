@@ -10,18 +10,18 @@
 </head>
 
 <body>
-    <main id="tab1" class="active">
-        <div id="header">
-            <div style="display: flex; align-items: center;">
-                <span id="counter-icon">💵</span>
-                <span id="count" class="counter-value">0</span>
-            </div>
-            <div id="level-container">
-                <span id="level-icon">🏆</span>
-                <span id="level-value">Lvl: 1</span>
-            </div>
+    <div id="header">
+        <div style="display: flex; align-items: center;">
+            <span id="counter-icon">💵</span>
+            <span id="count" class="counter-value">0</span>
         </div>
-        
+        <div id="level-container">
+            <span id="level-icon">🏆</span>
+            <span id="level-value">Lvl: 1</span>
+        </div>
+    </div>
+    
+    <main id="tab1" class="active">        
         <div id="image-container">
             <button id="clickable-image" onclick="imageClicked(event);" ontouchstart="imageClicked(event);">
                 <img width="320" src="./assets/cabbagecoin.png" alt="cabbage">

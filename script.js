@@ -31,14 +31,13 @@ function resetGame() {
 
 // Ensure event listeners are attached after content loads
 window.addEventListener('load', () => {
-    resetGame();
+    //resetGame();
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
     setupTabEventListeners(); // Setup tab event listeners
 });
 
 function showTab(tabId) {
-    console.log(`Switching to tab: ${tabId}`); // Debug log
 
     // Hide all tabs
     const tabs = document.querySelectorAll('main');
@@ -132,7 +131,7 @@ function imageClicked(event) {
     animateCounter(document.getElementById('count'));
 
     // Play sound and provide haptic feedback
-    playClickSound();
+    //playClickSound();
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 
     // Remove the highlight class after animation duration

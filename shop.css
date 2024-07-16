@@ -6,13 +6,13 @@ main {
     align-items: center; /* Center items horizontally */
     padding: 20px; /* Add some padding */
     text-align: center; /* Center text */
-    color: white; /* Ensure text color is visible */
+    color:black; /* Ensure text color is visible */
 }
 
 .shop-item button {
     padding: 10px 15px;
     background-color: red; /* Button background */
-    color: white; /* Button text color */
+    color:white; /* Button text color */
     border: none;
     border-radius: 5px;
     cursor: pointer;
