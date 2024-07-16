@@ -8,9 +8,16 @@
     <link rel="stylesheet" href="shop.css">
 </head>
 <body>
-    <header>
-        <h1>Shop</h1>
-    </header>
+    <div id="header">
+        <div style="display: flex; align-items: center;">
+            <span id="counter-icon">💵</span>
+            <span id="count" class="counter-value">0</span>
+        </div>
+        <div id="level-container">
+            <span id="level-icon">🏆</span>
+            <span id="level-value">Lvl: 1</span>
+        </div>
+    </div>
     <main>
         <div id="shop-items">
             <div class="shop-item">
@@ -23,9 +30,6 @@
         </div>
     </main>
     <footer>
-        <div class="tab" onclick="location.href='index.html';">
-            <span>Back</span>
-        </div>
     </footer>
     <script src="script.js"></script>
 </body>

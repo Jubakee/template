@@ -9,20 +9,6 @@ main {
     color: white; /* Ensure text color is visible */
 }
 
-.shop-item {
-    text-align: center; /* Center-align text */
-}
-
-.shop-item-title {
-    margin-top: 10px; /* Space between image and text */
-}
-
-.shop-item-image {
-    width: 100px; /* Set width as needed */
-    height: auto; /* Maintain aspect ratio */
-    margin: 10px 0; /* Add spacing above and below the image */
-}
-
 .shop-item button {
     padding: 10px 15px;
     background-color: red; /* Button background */
@@ -35,4 +21,14 @@ main {
 
 .shop-item button:hover {
     background-color: darkgreen; /* Darker shade on hover */
+}
+
+.shop-item {
+    text-align: center; /* Center-align text */
+}
+
+.shop-item-image {
+    width: 100px; /* Set width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin: 10px 0; /* Add spacing above and below the image */
 }
