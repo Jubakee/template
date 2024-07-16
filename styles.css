@@ -198,8 +198,6 @@ footer {
     margin: 0;
 }
 
-
-
 .inventory-item {
     background-color: white; /* Item background */
     border: 1px solid #999; /* Item border */
@@ -221,7 +219,6 @@ footer {
 .inventory-item-name {
     font-weight: bold; /* Bold item name */
 }
-
 
 .popup {
     display: none; /* Hidden by default */

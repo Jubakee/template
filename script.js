@@ -142,6 +142,8 @@ function imageClicked(event) {
     const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
     const touchCount = touches.length;
 
+    if (touchCount > 1) return; // Prevent multiple touches
+
     if (energy <= 0) {
         alert("Not enough energy to click the cabbage!");
         return; // Prevent clicking if energy is 0
@@ -165,7 +167,7 @@ function imageClicked(event) {
     animateCounter(document.getElementById('count'));
 
     // Play sound and provide haptic feedback
-    //playClickSound();
+    playClickSound();
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 
     // Remove the highlight class after animation duration
@@ -173,6 +175,7 @@ function imageClicked(event) {
         cabbageImage.classList.remove('clicked');
     }, 300); // Match this duration with your CSS animation duration
 }
+
 
 document.getElementById("clickable-image").addEventListener("touchstart", function(event) {
     imageClicked(event);
