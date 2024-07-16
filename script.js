@@ -8,17 +8,39 @@ let level = 1; // Starting level
 const levelUpThreshold = 5000; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 
-// // Function to expand the Telegram Web App to full height
-// function expandWebApp() {
-//     // Ensure Telegram WebApp is ready before attempting to expand
-//     Telegram.WebApp.ready(() => {
-//         Telegram.WebApp.expand();
-//     });
-// }
-Telegram.WebApp.ready();
-Telegram.WebApp.expand();
+Telegram.WebApp.ready(() => {
+    Telegram.WebApp.expand();
+});
+
+function resetGame() {
+    count = 0;
+    energy = 5000; // Reset energy to starting value
+    level = 1; // Reset level to starting value
+    coinsPerClick = 1; // Reset coins per click
+
+    // Clear saved data from local storage
+    localStorage.removeItem('kimchiCounter');
+    localStorage.removeItem('kimchiEnergy');
+    localStorage.removeItem('lastUpdateTime');
+
+    // Update the UI
+    document.getElementById('count').innerText = count;
+    updateEnergyBar();
+    updateLevelDisplay();
+}
+
+
+// Ensure event listeners are attached after content loads
+window.addEventListener('load', () => {
+    resetGame();
+    loadCounter();
+    startRechargeTimer(); // Start the recharge timer
+    setupTabEventListeners(); // Setup tab event listeners
+});
 
 function showTab(tabId) {
+    console.log(`Switching to tab: ${tabId}`); // Debug log
+
     // Hide all tabs
     const tabs = document.querySelectorAll('main');
     tabs.forEach(tab => {
@@ -37,12 +59,20 @@ function showTab(tabId) {
     document.getElementById(tabId + '-btn').classList.add('active-tab');
 }
 
-// Attach event listeners for tabs
-document.getElementById('tab1-btn').addEventListener('click', () => showTab('tab1'));
-document.getElementById('tab2-btn').addEventListener('click', () => showTab('tab2'));
-document.getElementById('tab3-btn').addEventListener('click', () => showTab('tab3'));
-document.getElementById('tab4-btn').addEventListener('click', () => showTab('tab4'));
+// Attach event listeners for tabs with touch support
+function setupTabEventListeners() {
+    const tabButtons = document.querySelectorAll('.tab');
 
+    tabButtons.forEach(button => {
+        const tabId = button.id.replace('-btn', '');
+        
+        button.addEventListener('click', () => showTab(tabId));
+        button.addEventListener('touchstart', (event) => {
+            event.preventDefault(); // Prevent default behavior
+            showTab(tabId);
+        });
+    });
+}
 
 function loadCounter() {
     const savedCount = localStorage.getItem('kimchiCounter');
@@ -176,10 +206,10 @@ function rechargeEnergy() {
     const rechargeAmount = Math.floor(elapsedTime / rechargeInterval) * energyRechargeRate;
 
     if (rechargeAmount > 0) {
-        energy = Math.min(energy + rechargeAmount, maxEnergy); // Cap energy at max
-        lastUpdateTime = now; // Update the last update time
+        energy = Math.min(energy + rechargeAmount, maxEnergy);
+        lastUpdateTime = now;
         updateEnergyBar();
-        saveCounter(); // Save the updated energy
+        saveCounter(); // Save the updated energy value
     }
 }
 
@@ -188,74 +218,12 @@ function startRechargeTimer() {
 }
 
 function playClickSound() {
-    const audio = new Audio('./assets/click.mp3'); // Ensure the correct path to the sound file
-    audio.play().catch(error => console.error('Error playing sound:', error));
+    const clickSound = new Audio('click-sound.mp3');
+    clickSound.play();
 }
 
 function provideFeedback(touches, amount) {
-    for (let touch of touches) {
+    for (const touch of touches) {
         createFeedback(touch.clientX, touch.clientY, amount); // Pass amount to createFeedback
     }
 }
-
-let isTouching = false;
-
-function disableSwipeDownGesture() {
-    document.addEventListener('touchstart', (event) => {
-        isTouching = true; // Set flag when touching
-        // Prevent default action on the first touch
-        event.preventDefault();
-    }, { passive: false });
-
-    document.addEventListener('touchmove', (event) => {
-        if (isTouching) {
-            event.preventDefault(); // Prevent scrolling
-        }
-    }, { passive: false });
-
-    document.addEventListener('touchend', (event) => {
-        isTouching = false; // Reset flag when touch ends
-    });
-}
-
-// Call the function to disable swipe down
-disableSwipeDownGesture();
-
-
-// function resetGame() {
-//     count = 0;
-//     energy = 5000; // Reset energy to starting value
-//     level = 1; // Reset level to starting value
-//     coinsPerClick = 1; // Reset coins per click
-
-//     // Clear saved data from local storage
-//     localStorage.removeItem('kimchiCounter');
-//     localStorage.removeItem('kimchiEnergy');
-//     localStorage.removeItem('lastUpdateTime');
-
-//     // Update the UI
-//     document.getElementById('count').innerText = count;
-//     updateEnergyBar();
-//     updateLevelDisplay();
-// }
-
-// Attach event listeners for load event
-window.addEventListener('load', () => {
-    // resetGame();
-    loadCounter();
-    startRechargeTimer(); // Start the recharge timer
-});
-
-// // Ensure that the expand function is also called when the Web App is initialized
-// Telegram.WebApp.onEvent('visibilityChanged', (visibility) => {
-//     if (visibility === 'visible') {
-//         expandWebApp();
-//     }
-// });
-
-
-window.addEventListener('beforeunload', saveCounter);
-
-
-
-

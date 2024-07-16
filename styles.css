@@ -10,7 +10,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-
+    touch-action: none; /* Prevent default touch actions */
     overflow: hidden; /* Prevent scrolling */
 }
 
@@ -41,7 +41,6 @@ main {
     border: none;
     background: none;
     padding: 0;
-
 }
 
 #image-container {
