@@ -71,10 +71,10 @@ function setupTabEventListeners() {
         const tabId = button.id.replace('-btn', '');
         
         button.addEventListener('click', () => showTab(tabId));
-        button.addEventListener('touchstart', (event) => {
-            event.preventDefault(); // Prevent default behavior
-            showTab(tabId);
-        });
+        // button.addEventListener('touchstart', (event) => {
+        //     event.preventDefault(); // Prevent default behavior
+        //     showTab(tabId);
+        // });
     });
 }
 
@@ -139,47 +139,44 @@ function saveCounter() {
 
 function imageClicked(event) {
     event.preventDefault(); // Prevent default behavior
-
-    // Use only the first touch event for mobile devices
     const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
-    
-    if (touches.length > 0) {
-        const touchCount = 1; // Use only the first touch
+    const touchCount = touches.length;
 
-        if (energy <= 0) {
-            alert("Not enough energy to click the cabbage!");
-            return; // Prevent clicking if energy is 0
-        }
+    if (touchCount > 1) return; // Prevent multiple touches
 
-        count += touchCount * coinsPerClick; // Increment count based on the touch count
-        energy -= touchCount; // Reduce energy with each click
-        energy = Math.max(energy, 0); // Prevent negative energy
-
-        document.getElementById('count').innerText = count;
-        saveCounter();
-        updateEnergyBar(); // Update energy bar display
-        updateLevel(); // Check for level up
-
-        // Reset and play animation
-        const cabbageImage = document.querySelector('#clickable-image img');
-        cabbageImage.classList.remove('clicked'); // Reset any existing animation
-        void cabbageImage.offsetWidth; // Trigger reflow
-        cabbageImage.classList.add('clicked'); // Add highlight class for animation
-
-        animateCounter(document.getElementById('count'));
-
-        // Play sound and provide haptic feedback
-        playClickSound();
-        provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
-
-        // Remove the highlight class after animation duration
-        setTimeout(() => {
-            cabbageImage.classList.remove('clicked');
-        }, 300); // Match this duration with your CSS animation duration
+    if (energy <= 0) {
+        alert("Not enough energy to click the cabbage!");
+        return; // Prevent clicking if energy is 0
     }
+
+    count += touchCount * coinsPerClick; // Increment count based on the number of touches
+    energy -= touchCount; // Reduce energy with each click
+    energy = Math.max(energy, 0); // Prevent negative energy
+
+    document.getElementById('count').innerText = count;
+    saveCounter();
+    updateEnergyBar(); // Update energy bar display
+    updateLevel(); // Check for level up
+
+    // Reset and play animation
+    const cabbageImage = document.querySelector('#clickable-image img');
+    cabbageImage.classList.remove('clicked'); // Reset any existing animation
+    void cabbageImage.offsetWidth; // Trigger reflow
+    cabbageImage.classList.add('clicked'); // Add highlight class for animation
+
+    animateCounter(document.getElementById('count'));
+
+    // Play sound and provide haptic feedback
+    playClickSound();
+    provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
+
+    // Remove the highlight class after animation duration
+    setTimeout(() => {
+        cabbageImage.classList.remove('clicked');
+    }, 300); // Match this duration with your CSS animation duration
 }
 
-// Event listener
+
 document.getElementById("clickable-image").addEventListener("touchstart", function(event) {
     imageClicked(event);
     navigator.vibrate(100); // Vibrate on touch
@@ -301,7 +298,7 @@ function handlePurchaseHatChest() {
 
         if (userResponse) {
             // Logic to show inventory, e.g., switch to inventory tab
-            showTab('tab2'); // Assuming 'tab2' is your inventory tab ID
+            showTab('tab3'); // Assuming 'tab2' is your inventory tab ID
         }
     } else {
         alert('Not enough coins!');
