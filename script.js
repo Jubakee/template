@@ -34,7 +34,7 @@ function resetGame() {
 
 // Ensure event listeners are attached after content loads
 window.addEventListener('load', () => {
-    resetGame();
+    //resetGame();
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
     setupTabEventListeners(); // Setup tab event listeners
@@ -87,23 +87,23 @@ function displayInventory() {
         const li = document.createElement('li');
         li.className = 'inventory-item';
         li.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="inventory-item-image" onclick="showItemPopup('${item.name}', '${item.image}')" />
+            <img src="${item.image}" alt="${item.name}" class="inventory-item-image" onclick="showItemPopup('${item.name}', '${item.image}', '${item.stats}')" />
             <div class="inventory-item-title">${item.name}</div>
         `;
         inventoryList.appendChild(li);
     });
 }
 
-function showItemPopup(name, image) {
+function showItemPopup(name, image, stats) {
     document.getElementById('popup-title').innerText = name;
     document.getElementById('popup-image').src = image;
+    document.getElementById('popup-stats').innerText = stats; // Set the stats text
     document.getElementById('item-popup').style.display = 'block';
 }
 
 function closePopup() {
     document.getElementById('item-popup').style.display = 'none';
 }
-
 
 
 function loadCounter() {
@@ -283,7 +283,7 @@ function handlePurchaseHatChest() {
         
         // Update inventory with item name and image URL
         let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-        inventory.push({ name: 'Hat Chest', image: './assets/chest.png' }); // Update with your image path
+        inventory.push({ name: 'Hat Chest', image: './assets/chest.png', stats: '+10 Per Hour' }); // Update with your image path
         localStorage.setItem('inventory', JSON.stringify(inventory));
 
         // Update displayed count

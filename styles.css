@@ -235,23 +235,59 @@ footer {
 
 .popup-content {
     background-color: #fefefe;
-    margin: 20% auto; /* Centered */
+    margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 100%; /* Adjust width as needed */
-    max-width: 500px; /* Maximum width */
-    text-align: center; /* Center text and images */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Add a subtle shadow */
-    border-radius: 10px; /* Add rounded corners */
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.popup-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px; /* Adjust size as needed */
+    color: black; /* Adjust color as needed */
 }
 
 .popup-content img {
-    max-width: 50%;
-    width: auto; /* Maintain aspect ratio */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 10px; /* Add rounded corners */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Add shadow to image */
+    max-width: 100%;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
+
+.stats-text {
+    background-color: #f0f0f0; /* Background color for the stats field */
+    border: 1px solid #ccc; /* Border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Inner spacing */
+    margin-bottom: 20px; /* Space below the stats */
+    font-size: 16px; /* Font size */
+    color: black; /* Text color */
+    min-height: 60px; /* Minimum height */
+    overflow: auto; /* Allow scrolling if content is too long */
+}
+
+.popup-content button {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Adjust size as needed */
+}
+
+.popup-content button:hover {
+    background-color: darkgreen;
+}
+
+
 
 .close {
     color: #aaa;
