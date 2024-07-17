@@ -34,7 +34,7 @@ function resetGame() {
 
 // Ensure event listeners are attached after content loads
 window.addEventListener('load', () => {
-    resetGame();
+    //resetGame();
     loadCounter();
     startRechargeTimer(); // Start the recharge timer
     setupTabEventListeners(); // Setup tab event listeners
@@ -283,7 +283,7 @@ function handlePurchaseHatChest() {
         
         // Update inventory with item name and image URL
         let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-        inventory.push({ name: 'Hat Chest', image: './assets/chest.png', stats: '+10 per hour' }); // Update with your image path
+        inventory.push({ name: 'Hat Chest', image: './assets/chest.png', stats: '+10 💵 per hour' }); // Update with your image path
         localStorage.setItem('inventory', JSON.stringify(inventory));
 
         // Update displayed count
