@@ -118,7 +118,7 @@ function openHatChest() {
             popupContent.classList.remove('item-reveal-animation'); // Remove the class after animation
         }, 1000); // Adjust duration to match your animation
 
-        
+        closePopup();
     }
 }
 
