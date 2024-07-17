@@ -231,6 +231,26 @@ footer {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0, 0, 0); /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    animation: fadeIn 0.5s; /* Fade-in animation */
+}
+
+.popup2 {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    animation: fadeIn 0.5s; /* Fade-in animation */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .popup-content {
@@ -243,9 +263,35 @@ footer {
     text-align: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
+    transform: scale(0.8); /* Start smaller */
+    animation: scaleUp 0.5s forwards; /* Scale-up animation */
+}
+
+.item-popup-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    transform: scale(0.8); /* Start smaller */
+    animation: scaleUp 0.5s forwards; /* Scale-up animation */
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.8); }
+    to { transform: scale(1); }
 }
 
 .popup-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px; /* Adjust size as needed */
+    color: black; /* Adjust color as needed */
+}
+.item-popup-content h2{
     margin-bottom: 20px;
     font-size: 24px; /* Adjust size as needed */
     color: black; /* Adjust color as needed */
@@ -256,6 +302,21 @@ footer {
     max-height: 300px;
     width: auto;
     height: auto;
+    transition: transform 0.3s ease; /* Smooth scale on hover */
+}
+.item-popup-content img {
+    max-width: 100%;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    transition: transform 0.3s ease; /* Smooth scale on hover */
+}
+
+.popup-content img:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+}
+.item-popup-content img:hover {
+    transform: scale(1.05); /* Slight zoom effect */
 }
 
 .stats-text {
@@ -263,6 +324,13 @@ footer {
     font-size: 18px; /* Font size */
     color: black; /* Text color */
 }
+
+.item-stats-text {
+    padding: 10px; /* Inner spacing */
+    font-size: 18px; /* Font size */
+    color: black; /* Text color */
+}
+
 
 .popup-content button {
     padding: 10px 20px;
@@ -272,26 +340,29 @@ footer {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px; /* Adjust size as needed */
+    transition: background-color 0.3s ease; /* Smooth background color change */
+}
+
+.item-popup-content button {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Adjust size as needed */
+    transition: background-color 0.3s ease; /* Smooth background color change */
 }
 
 .popup-content button:hover {
     background-color: darkgreen;
+    transform: scale(1.05); /* Slight grow effect */
+}
+.item-popup-content button:hover {
+    background-color: darkgreen;
+    transform: scale(1.05); /* Slight grow effect */
 }
 
-.item-reveal-animation {
-    animation: reveal 1s ease-out;
-}
-
-@keyframes reveal {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
 
 .close {
     color: #aaa;
@@ -306,4 +377,40 @@ footer {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* Shake effect for excitement */
+@keyframes shake {
+    0% { transform: translate(1px, 0); }
+    25% { transform: translate(-1px, 0); }
+    50% { transform: translate(1px, 0); }
+    75% { transform: translate(-1px, 0); }
+    100% { transform: translate(0, 0); }
+}
+
+.shake {
+    animation: shake 0.5s; /* Shake animation duration */
+}
+
+.item {
+    border: 2px solid; /* Adjust thickness as needed */
+    padding: 10px; /* Inner spacing */
+    margin: 5px; /* Spacing between items */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.item-reveal-animation {
+    animation: reveal 0.5s ease-out;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 

@@ -10,12 +10,13 @@ let coinsPerClick = 1; // Coins earned per click
 let inventory = [];
 
 const items = [
-    { name: 'Hat 1 ', image: './assets/hat1.png', stats: '+20 💵 per hour', type: 'item' },
-    { name: 'Hat 2', image: './assets/hat2.png', stats: '+50 💵 per hour', type: 'item' },
-    { name: 'Hat 3', image: './assets/hat3.png', stats: '+30 💵 per hour', type: 'item' },
-    { name: 'Hat 4', image: './assets/hat4.png', stats: '+40 💵 per hour', type: 'item' },
-    { name: 'Hat 5', image: './assets/hat5.png', stats: '+25 💵 per hour', type: 'item' }
+    { name: 'Hat 1', image: './assets/hat1.png', stats: '+20 💵 per hour', type: 'item', borderColor: 'red', status: 'unequipped' },
+    { name: 'Hat 2', image: './assets/hat2.png', stats: '+50 💵 per hour', type: 'item', borderColor: 'blue', status: 'unequipped' },
+    { name: 'Hat 3', image: './assets/hat3.png', stats: '+30 💵 per hour', type: 'item', borderColor: 'green', status: 'unequipped' },
+    { name: 'Hat 4', image: './assets/hat4.png', stats: '+40 💵 per hour', type: 'item', borderColor: 'teal', status: 'unequipped' },
+    { name: 'Hat 5', image: './assets/hat5.png', stats: '+25 💵 per hour', type: 'item', borderColor: 'purple', status: 'unequipped' }
 ];
+
 
 
 Telegram.WebApp.ready();
@@ -88,7 +89,6 @@ function setupTabEventListeners() {
 }
 
 function openHatChest() {
-    //closePopup();
     const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
     const hatChestIndex = inventory.findIndex(item => item.name === 'Hat Chest');
 
@@ -98,6 +98,7 @@ function openHatChest() {
 
         // Select a random item from the items array
         const newItem = items[Math.floor(Math.random() * items.length)];
+        //console.log(newItem.name, newItem.image, newItem.stats, newItem.type, newItem.borderColor, newItem.status);
 
         // Add the new item to the inventory
         inventory.push(newItem);
@@ -106,19 +107,18 @@ function openHatChest() {
         // Update the UI to show the new item
         displayInventory();
 
-        // Display the new item in the popup
-        document.getElementById('popup-title').innerText = newItem.name;
-        document.getElementById('popup-image').src = newItem.image;
-        document.getElementById('popup-stats').innerText = newItem.stats;
-        
-        // Optionally, show some animation or effect to indicate the item change
-        const popupContent = document.querySelector('.popup-content');
-        popupContent.classList.add('item-reveal-animation'); // Add a CSS class for animation
-        setTimeout(() => {
-            popupContent.classList.remove('item-reveal-animation'); // Remove the class after animation
-        }, 1000); // Adjust duration to match your animation
-
         closePopup();
+
+
+        // Display the new item in the popup as an item popup
+       // showItemPopup(newItem.name, newItem.image, newItem.stats, newItem.type, newItem.borderColor, newItem.status);
+
+        // // Optionally, show some animation or effect to indicate the item change
+        // const popupContent = document.querySelector('.popup-content');
+        // popupContent.classList.add('item-reveal-animation'); // Add a CSS class for animation
+        // setTimeout(() => {
+        //     popupContent.classList.remove('item-reveal-animation'); // Remove the class after animation
+        // }, 1000); // Adjust duration to match your animation
     }
 }
 
@@ -131,51 +131,133 @@ function displayInventory() {
     inventory.forEach(item => {
         const li = document.createElement('li');
         li.className = 'inventory-item';
+        li.style.borderColor = item.borderColor; // Set the border color
+        li.style.borderWidth = '5px'; // Optional: Set the border width
+        li.style.borderStyle = 'solid'; // Optional: Set the border style
+        li.style.padding = '10px'; // Optional: Inner spacing
+        li.style.margin = '5px'; // Optional: Spacing between items
+        li.style.borderRadius = '5px'; // Optional: Rounded corners
+        
         li.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="inventory-item-image" onclick="handlePopup('${item.name}', '${item.image}', '${item.stats}', '${item.type}')" />
-            <div class="inventory-item-title">${item.name}</div>
+            <img src="${item.image}" alt="${item.name}" class="inventory-item-image" onclick="handlePopup('${item.name}', '${item.image}', '${item.stats}', '${item.type}', '${item.borderColor}', '${item.status}')" />
+            <div class="inventory-item-title">${item.name} ${item.status === 'equipped' ? '(equipped)' : ''}</div>
         `;
+
         inventoryList.appendChild(li);
     });
 }
 
-function handlePopup(name, image, stats, type) {
+
+function handlePopup(name, image, stats, type, borderColor, status) {
     if (type === 'chest') {
-        showChestPopup(name, image, stats); // Open chest popup
+        showChestPopup(name, image, stats, type, borderColor, status);
     } else {
-        showItemPopup(name, image, stats); // Open item popup
+        showItemPopup(name, image, stats, type, borderColor, status);
     }
+    
+    const equipButton = document.getElementById('equip-button');
+    equipButton.onclick = function() {
+        equipItem(name, image, stats, type, borderColor, status);
+
+        console.log(inventory)
+        //displayInventory();
+    };
+
+
 }
 
-function showChestPopup(name, image, stats) {
+
+
+function showChestPopup(name, image, stats,type, borderColor, status) {
     document.getElementById('popup-title').innerText = name;
     document.getElementById('popup-image').src = image;
     document.getElementById('popup-stats').innerText = stats; // Set the stats text
+
+    const chestPopupContent = document.querySelector('.popup-content');
+    chestPopupContent.style.borderColor = borderColor; // Set the border color
+    chestPopupContent.style.borderWidth = '5px'; // Optional: Set the border width
+    chestPopupContent.style.borderStyle = 'solid'; // Optional: Set the border style
+
     document.getElementById('chest-popup').style.display = 'block';
+
+
+    
 }
+
+
+function showItemPopup(name, image, stats,type, borderColor, status) {
+    document.getElementById('item-popup-title').innerText = name;
+    document.getElementById('item-popup-image').src = image;
+    document.getElementById('item-popup-stats').innerText = stats;
+
+    const itemPopupContent = document.querySelector('.item-popup-content');
+    itemPopupContent.style.borderColor = borderColor; // Set the border color
+    itemPopupContent.style.borderWidth = '5px'; // Optional: Set the border width
+    itemPopupContent.style.borderStyle = 'solid'; // Optional: Set the border style
+
+if (status === 'equipped') {
+    document.getElementById('equip-button').textContent = "Unequip"; // Change button text to "Unequip"
+    document.getElementById('equip-button').style.backgroundColor = 'red'; // Change button background to red
+} else {
+    document.getElementById('equip-button').textContent = "Equip"; // Reset button text to "Equip"
+    document.getElementById('equip-button').style.backgroundColor = ''; // Reset button background color
+}
+
+
+    document.getElementById('item-popup').style.display = 'block';
+}
+
+
 
 function closePopup() {
     document.getElementById('chest-popup').style.display = 'none';
 }
 
 
-function showItemPopup(name, image, stats) {
-    document.getElementById('item-popup-title').innerText = name;
-    document.getElementById('item-popup-image').src = image;
-    document.getElementById('item-popup-stats').innerText = stats;
-    document.getElementById('item-popup').style.display = 'block'; // Show the item popup
-}
+
 
 function closeItemPopup() {
     document.getElementById('item-popup').style.display = 'none'; // Hide the item popup
 }
 
-function equipItem() {
-    // Logic to equip the item
-    alert('Item equipped!'); // Placeholder for actual equip logic
-    closeItemPopup(); // Close the popup after equipping
-}
+function equipItem(name, image, stats, type, borderColor) {
+    const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    
+    // Get the currently equipped item
+    const equippedItem = inventory.find(item => item.status === 'equipped');
 
+    // Check if the item being clicked is currently equipped
+    const currentItem = inventory.find(item => item.name === name);
+
+    if (equippedItem) {
+        if (equippedItem.name === name) {
+            // If the item is already equipped, unequip it
+            equippedItem.status = 'unequipped'; // Change status to unequipped
+            localStorage.setItem('inventory', JSON.stringify(inventory)); // Save updated inventory
+            showItemPopup(name, image, stats, type, borderColor, equippedItem.status);
+            console.log('Unequipped Item:', { status: equippedItem.status });
+            displayInventory(); // Refresh inventory display
+            closeItemPopup(); // Close the popup
+            return; // Exit the function
+        } else {
+            // If another item is equipped, show an alert
+            alert(`You can only equip one hat at a time: ${equippedItem.name} is already equipped.`);
+            return; // Prevent equipping if another hat is equipped
+        }
+    } else {
+        // If no item is equipped, equip the new item
+        if (currentItem) {
+            currentItem.status = 'equipped'; // Change status to equipped
+            localStorage.setItem('inventory', JSON.stringify(inventory)); // Save updated inventory
+            showItemPopup(name, image, stats, type, borderColor, currentItem.status);
+            console.log('Equipped Item:', { status: currentItem.status });
+        }
+    }
+
+    // Refresh the displayed inventory
+    displayInventory();
+    closeItemPopup();
+}
 
 
 function loadCounter() {
@@ -342,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function confirmPurchase() {
-    const cost = 10; // Cost of the item
+    const cost = 1; // Cost of the item
     const savedCount = parseInt(localStorage.getItem('kimchiCounter'), 10) || 0;
 
     if (savedCount >= cost) {
@@ -359,7 +441,7 @@ function confirmPurchase() {
 }
 
 function handlePurchaseHatChest() {
-    const cost = 10; // Cost of the item
+    const cost = 1; // Cost of the item
     const savedCount = parseInt(localStorage.getItem('kimchiCounter'), 10) || 0;
 
     // Deduct coins
@@ -368,8 +450,12 @@ function handlePurchaseHatChest() {
 
     // Update inventory with item name and image URL
     let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-    inventory.push({ name: 'Hat Chest', image: './assets/chest.png', stats: 'Open to receive a random hat!', type: 'chest' });
+    inventory.push({ name: 'Hat Chest', image: './assets/chest.png', stats: 'Open to receive a random Hat!', type: 'chest', borderColor: 'gold' });
     localStorage.setItem('inventory', JSON.stringify(inventory));
+
+
+    //   { name: 'Hat 1', image: './assets/hat1.png', stats: '+20 💵 per hour', type: 'item', borderColor: 'red' },
+
 
     // Update displayed count
     document.getElementById('count').innerText = count;
