@@ -49,6 +49,8 @@ window.addEventListener('load', () => {
     startRechargeTimer(); // Start the recharge timer
     setupTabEventListeners(); // Setup tab event listeners
     displayInventory();
+    displayEquippedItems(); // Display the equipped items
+
 });
 
 function showTab(tabId) {
@@ -123,12 +125,21 @@ function openHatChest() {
 }
 
 
+let currentPage = 1; // Keep track of the current page
+const itemsPerPage = 9; // Set the number of items per page
+
 function displayInventory() {
     const inventoryList = document.getElementById('inventory-list');
     inventoryList.innerHTML = ''; // Clear existing items
 
     const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-    inventory.forEach(item => {
+    const totalPages = Math.ceil(inventory.length / itemsPerPage); // Calculate total pages
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, inventory.length);
+
+    for (let i = startIndex; i < endIndex; i++) {
+        const item = inventory[i];
         const li = document.createElement('li');
         li.className = 'inventory-item';
         li.style.borderColor = item.borderColor; // Set the border color
@@ -140,12 +151,52 @@ function displayInventory() {
         
         li.innerHTML = `
             <img src="${item.image}" alt="${item.name}" class="inventory-item-image" onclick="handlePopup('${item.name}', '${item.image}', '${item.stats}', '${item.type}', '${item.borderColor}', '${item.status}')" />
-            <div class="inventory-item-title">${item.name} ${item.status === 'equipped' ? '(equipped)' : ''}</div>
+            <div class="inventory-item-title">${item.name}</div>
+            <div class="inventory-item-status" style="font-size: 12px; color: gray;">${item.status === 'equipped' ? '(equipped)' : ''}</div>
         `;
 
         inventoryList.appendChild(li);
-    });
+    }
+
+    // Display pagination controls
+    displayPagination(totalPages);
 }
+
+
+function displayPagination(totalPages) {
+    const pagination = document.getElementById('pagination-controls');
+    pagination.innerHTML = ''; // Clear existing pagination controls
+
+    // Create previous button
+    const prevButton = document.createElement('button');
+    prevButton.innerText = 'Previous';
+    prevButton.disabled = currentPage === 1; // Disable if on the first page
+    prevButton.onclick = () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayInventory(); // Refresh the inventory display
+        }
+    };
+    pagination.appendChild(prevButton);
+
+    // Page indicator
+    const pageIndicator = document.createElement('span');
+    pageIndicator.innerText = ` ${currentPage} / ${totalPages} `;
+    pagination.appendChild(pageIndicator);
+
+    // Create next button
+    const nextButton = document.createElement('button');
+    nextButton.innerText = 'Next';
+    nextButton.disabled = currentPage === totalPages; // Disable if on the last page
+    nextButton.onclick = () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayInventory(); // Refresh the inventory display
+        }
+    };
+    pagination.appendChild(nextButton);
+}
+
 
 
 function handlePopup(name, image, stats, type, borderColor, status) {
@@ -225,7 +276,7 @@ function equipItem(name, image, stats, type, borderColor) {
     
     // Get the currently equipped item
     const equippedItem = inventory.find(item => item.status === 'equipped');
-
+    
     // Check if the item being clicked is currently equipped
     const currentItem = inventory.find(item => item.name === name);
 
@@ -237,12 +288,25 @@ function equipItem(name, image, stats, type, borderColor) {
             showItemPopup(name, image, stats, type, borderColor, equippedItem.status);
             console.log('Unequipped Item:', { status: equippedItem.status });
             displayInventory(); // Refresh inventory display
+            displayEquippedItems(); // Refresh equipped items display
             closeItemPopup(); // Close the popup
             return; // Exit the function
         } else {
-            // If another item is equipped, show an alert
-            alert(`You can only equip one hat at a time: ${equippedItem.name} is already equipped.`);
-            return; // Prevent equipping if another hat is equipped
+            // Ask for confirmation to unequip the currently equipped item
+            const confirmUnequip = confirm(`You already have ${equippedItem.name} equipped. Do you want to unequip it and equip ${name} instead?`);
+            if (confirmUnequip) {
+                // If confirmed, unequip the currently equipped item
+                equippedItem.status = 'unequipped';
+                localStorage.setItem('inventory', JSON.stringify(inventory)); // Save updated inventory
+
+                // Equip the new item
+                currentItem.status = 'equipped'; // Change status to equipped
+                localStorage.setItem('inventory', JSON.stringify(inventory)); // Save updated inventory
+                showItemPopup(name, image, stats, type, borderColor, currentItem.status);
+                console.log('Equipped Item:', { status: currentItem.status });
+            } else {
+                return; // Exit if the user does not confirm
+            }
         }
     } else {
         // If no item is equipped, equip the new item
@@ -256,8 +320,37 @@ function equipItem(name, image, stats, type, borderColor) {
 
     // Refresh the displayed inventory
     displayInventory();
+    displayEquippedItems(); // Refresh equipped items display
     closeItemPopup();
 }
+
+function displayEquippedItems() {
+    const equippedItemsContainer = document.getElementById('tab4');
+    equippedItemsContainer.innerHTML = '<h2>Avatar</h2>'; // Clear existing items
+
+    const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    const equippedItems = inventory.filter(item => item.status === 'equipped');
+
+    equippedItems.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'equipped-item';
+        itemElement.style.borderColor = item.borderColor; // Set the border color
+        itemElement.style.borderWidth = '5px'; // Optional: Set the border width
+        itemElement.style.borderStyle = 'solid'; // Optional: Set the border style
+        itemElement.style.padding = '10px'; // Optional: Inner spacing
+        itemElement.style.margin = '5px'; // Optional: Spacing between items
+        itemElement.style.borderRadius = '5px'; // Optional: Rounded corners
+
+        itemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="equipped-item-image" />
+            <div class="equipped-item-title">${item.name}</div>
+            <div class="equipped-item-stats">${item.stats}</div>
+        `;
+
+        equippedItemsContainer.appendChild(itemElement);
+    });
+}
+
 
 
 function loadCounter() {
@@ -292,40 +385,45 @@ function saveCounter() {
 }
 
 function imageClicked(event) {
-    event.preventDefault(); // Prevent default behavior
+    event.preventDefault();
     const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
     const touchCount = touches.length;
 
     if (energy <= 0) {
         alert("Not enough energy to click the cabbage!");
-        return; // Prevent clicking if energy is 0
+        return;
     }
 
-    count += touchCount * coinsPerClick; // Increment count based on the number of touches
-    energy -= touchCount; // Reduce energy with each click
-    energy = Math.max(energy, 0); // Prevent negative energy
+    updateGameState(touchCount);
+    animateCabbage();
+    provideFeedback(touches, coinsPerClick);
+}
 
+function updateGameState(touchCount) {
+    count += touchCount * coinsPerClick;
+    energy = Math.max(0, energy - touchCount); // Prevent negative energy
     document.getElementById('count').innerText = count;
     saveCounter();
-    updateEnergyBar(); // Update energy bar display
-    updateLevel(); // Check for level up
+    updateEnergyBar();
+    updateLevel();
+}
 
-    // Reset and play animation
+function animateCabbage() {
     const cabbageImage = document.querySelector('#clickable-image img');
-    cabbageImage.classList.remove('clicked'); // Reset any existing animation
-    void cabbageImage.offsetWidth; // Trigger reflow
-    cabbageImage.classList.add('clicked'); // Add highlight class for animation
-
-    animateCounter(document.getElementById('count'));
-
-    // Play sound and provide haptic feedback
-    //playClickSound();
-    provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
+    
+    // Reset any existing animation
+    cabbageImage.classList.remove('clicked');
+    
+    // Trigger reflow to restart the animation
+    void cabbageImage.offsetWidth;
+    
+    // Add the animation class
+    cabbageImage.classList.add('clicked');
 
     // Remove the highlight class after animation duration
     setTimeout(() => {
         cabbageImage.classList.remove('clicked');
-    }, 300); // Match this duration with your CSS animation duration
+    }, 300); // Adjust this duration to match your CSS animation duration
 }
 
 document.getElementById("clickable-image").addEventListener("touchstart", function(event) {
@@ -445,23 +543,28 @@ function handlePurchaseHatChest() {
     const savedCount = parseInt(localStorage.getItem('kimchiCounter'), 10) || 0;
 
     // Deduct coins
-    count = savedCount - cost;
+    const count = savedCount - cost;
     localStorage.setItem('kimchiCounter', count);
 
     // Update inventory with item name and image URL
     let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-    inventory.push({ name: 'Hat Chest', image: './assets/chest.png', stats: 'Open to receive a random Hat!', type: 'chest', borderColor: 'gold' });
+    
+    // Add "Hat Chest" at a specific position (e.g., end of the inventory)
+    inventory.push({ 
+        name: 'Hat Chest', 
+        image: './assets/chest.png', 
+        stats: 'Open to receive a random Hat!', 
+        type: 'chest', 
+        borderColor: 'gold',
+        position: inventory.length // Save current position
+    });
     localStorage.setItem('inventory', JSON.stringify(inventory));
-
-
-    //   { name: 'Hat 1', image: './assets/hat1.png', stats: '+20 💵 per hour', type: 'item', borderColor: 'red' },
-
 
     // Update displayed count
     document.getElementById('count').innerText = count;
 
     // Display inventory
-    displayInventory();
+    displayInventory(inventory);
 
     // Ask the user if they would like to view their inventory
     const telegramMessage = "Purchase complete! Would you like to view your inventory?";
@@ -472,6 +575,7 @@ function handlePurchaseHatChest() {
         showTab('tab3'); // Assuming 'tab3' is your inventory tab ID
     }
 }
+
 
 // document.addEventListener('visibilitychange', () => {
 //     if (document.hidden) {

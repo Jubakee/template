@@ -43,6 +43,12 @@ main {
     padding: 0;
 }
 
+#clickable-image img.clicked {
+    transform: scale(1.1); /* Scale up effect */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+
 #image-container {
     display: flex;
     justify-content: center;
@@ -59,7 +65,7 @@ main {
     transition: opacity 0.6s ease-out; /* Optional for smoother fading */
 }
 
-@keyframes cabbage-click {
+/* @keyframes cabbage-click {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
@@ -79,7 +85,7 @@ main {
     100% {
         transform: scale(1);
     }
-}
+} */
 
 footer {
     display: flex;
@@ -413,4 +419,11 @@ footer {
     }
 }
 
+
+
+.inventory-item-status {
+    font-size: 12px; /* Smaller font size */
+    color: gray; /* Status text color */
+    margin-top: 2px; /* Space above the status text */
+}
 
