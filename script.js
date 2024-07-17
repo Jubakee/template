@@ -9,6 +9,15 @@ const levelUpThreshold = 5000; // Coins needed to level up
 let coinsPerClick = 1; // Coins earned per click
 let inventory = [];
 
+const items = [
+    { name: 'Hat 1 ', image: './assets/hat1.png', stats: '+20 💵 per hour', type: 'item' },
+    { name: 'Hat 2', image: './assets/hat2.png', stats: '+50 💵 per hour', type: 'item' },
+    { name: 'Hat 3', image: './assets/hat3.png', stats: '+30 💵 per hour', type: 'item' },
+    { name: 'Hat 4', image: './assets/hat4.png', stats: '+40 💵 per hour', type: 'item' },
+    { name: 'Hat 5', image: './assets/hat5.png', stats: '+25 💵 per hour', type: 'item' }
+];
+
+
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
 
@@ -78,6 +87,42 @@ function setupTabEventListeners() {
     });
 }
 
+function openHatChest() {
+    //closePopup();
+    const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    const hatChestIndex = inventory.findIndex(item => item.name === 'Hat Chest');
+
+    if (hatChestIndex !== -1) {
+        // Remove the Hat Chest from inventory
+        inventory.splice(hatChestIndex, 1);
+
+        // Select a random item from the items array
+        const newItem = items[Math.floor(Math.random() * items.length)];
+
+        // Add the new item to the inventory
+        inventory.push(newItem);
+        localStorage.setItem('inventory', JSON.stringify(inventory));
+
+        // Update the UI to show the new item
+        displayInventory();
+
+        // Display the new item in the popup
+        document.getElementById('popup-title').innerText = newItem.name;
+        document.getElementById('popup-image').src = newItem.image;
+        document.getElementById('popup-stats').innerText = newItem.stats;
+        
+        // Optionally, show some animation or effect to indicate the item change
+        const popupContent = document.querySelector('.popup-content');
+        popupContent.classList.add('item-reveal-animation'); // Add a CSS class for animation
+        setTimeout(() => {
+            popupContent.classList.remove('item-reveal-animation'); // Remove the class after animation
+        }, 1000); // Adjust duration to match your animation
+
+        
+    }
+}
+
+
 function displayInventory() {
     const inventoryList = document.getElementById('inventory-list');
     inventoryList.innerHTML = ''; // Clear existing items
@@ -87,23 +132,50 @@ function displayInventory() {
         const li = document.createElement('li');
         li.className = 'inventory-item';
         li.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="inventory-item-image" onclick="showItemPopup('${item.name}', '${item.image}', '${item.stats}')" />
+            <img src="${item.image}" alt="${item.name}" class="inventory-item-image" onclick="handlePopup('${item.name}', '${item.image}', '${item.stats}', '${item.type}')" />
             <div class="inventory-item-title">${item.name}</div>
         `;
         inventoryList.appendChild(li);
     });
 }
 
-function showItemPopup(name, image, stats) {
+function handlePopup(name, image, stats, type) {
+    if (type === 'chest') {
+        showChestPopup(name, image, stats); // Open chest popup
+    } else {
+        showItemPopup(name, image, stats); // Open item popup
+    }
+}
+
+function showChestPopup(name, image, stats) {
     document.getElementById('popup-title').innerText = name;
     document.getElementById('popup-image').src = image;
     document.getElementById('popup-stats').innerText = stats; // Set the stats text
-    document.getElementById('item-popup').style.display = 'block';
+    document.getElementById('chest-popup').style.display = 'block';
 }
 
 function closePopup() {
-    document.getElementById('item-popup').style.display = 'none';
+    document.getElementById('chest-popup').style.display = 'none';
 }
+
+
+function showItemPopup(name, image, stats) {
+    document.getElementById('item-popup-title').innerText = name;
+    document.getElementById('item-popup-image').src = image;
+    document.getElementById('item-popup-stats').innerText = stats;
+    document.getElementById('item-popup').style.display = 'block'; // Show the item popup
+}
+
+function closeItemPopup() {
+    document.getElementById('item-popup').style.display = 'none'; // Hide the item popup
+}
+
+function equipItem() {
+    // Logic to equip the item
+    alert('Item equipped!'); // Placeholder for actual equip logic
+    closeItemPopup(); // Close the popup after equipping
+}
+
 
 
 function loadCounter() {
@@ -142,8 +214,6 @@ function imageClicked(event) {
     const touches = event.touches || [{ clientX: event.clientX, clientY: event.clientY }];
     const touchCount = touches.length;
 
-    if (touchCount > 1) return; // Prevent multiple touches
-
     if (energy <= 0) {
         alert("Not enough energy to click the cabbage!");
         return; // Prevent clicking if energy is 0
@@ -167,7 +237,7 @@ function imageClicked(event) {
     animateCounter(document.getElementById('count'));
 
     // Play sound and provide haptic feedback
-    playClickSound();
+    //playClickSound();
     provideFeedback(touches, coinsPerClick); // Pass coinsPerClick to provideFeedback
 
     // Remove the highlight class after animation duration
@@ -175,7 +245,6 @@ function imageClicked(event) {
         cabbageImage.classList.remove('clicked');
     }, 300); // Match this duration with your CSS animation duration
 }
-
 
 document.getElementById("clickable-image").addEventListener("touchstart", function(event) {
     imageClicked(event);
@@ -268,39 +337,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const purchaseButton = document.getElementById('purchase-hat-chest');
     
     if (purchaseButton) {
-        purchaseButton.addEventListener('click', handlePurchaseHatChest);
+        purchaseButton.addEventListener('click', confirmPurchase);
     }
 });
 
-function handlePurchaseHatChest() {
+function confirmPurchase() {
     const cost = 10; // Cost of the item
     const savedCount = parseInt(localStorage.getItem('kimchiCounter'), 10) || 0;
 
     if (savedCount >= cost) {
-        // Deduct coins
-        count = savedCount - cost;
-        localStorage.setItem('kimchiCounter', count);
-        
-        // Update inventory with item name and image URL
-        let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-        inventory.push({ name: 'Hat Chest', image: './assets/chest.png', stats: '+10 💵 per hour' }); // Update with your image path
-        localStorage.setItem('inventory', JSON.stringify(inventory));
+        const confirmMessage = `Are you sure you want to purchase the Hat Chest for ${cost} coins?`;
+        const userConfirm = confirm(confirmMessage);
 
-        // Update displayed count
-        document.getElementById('count').innerText = count;
-
-        // Display inventory
-        displayInventory();
-
-        // Telegram popup
-        const telegramMessage = "Purchase complete! Would you like to view your inventory?";
-        const userResponse = confirm(telegramMessage); // Replace with appropriate Telegram API call if needed
-
-        if (userResponse) {
-            // Logic to show inventory, e.g., switch to inventory tab
-            showTab('tab3'); // Assuming 'tab2' is your inventory tab ID
+        if (userConfirm) {
+            // Proceed with the purchase
+            handlePurchaseHatChest();
         }
     } else {
         alert('Not enough coins!');
     }
 }
+
+function handlePurchaseHatChest() {
+    const cost = 10; // Cost of the item
+    const savedCount = parseInt(localStorage.getItem('kimchiCounter'), 10) || 0;
+
+    // Deduct coins
+    count = savedCount - cost;
+    localStorage.setItem('kimchiCounter', count);
+
+    // Update inventory with item name and image URL
+    let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    inventory.push({ name: 'Hat Chest', image: './assets/chest.png', stats: 'Open to receive a random hat!', type: 'chest' });
+    localStorage.setItem('inventory', JSON.stringify(inventory));
+
+    // Update displayed count
+    document.getElementById('count').innerText = count;
+
+    // Display inventory
+    displayInventory();
+
+    // Ask the user if they would like to view their inventory
+    const telegramMessage = "Purchase complete! Would you like to view your inventory?";
+    const userResponse = confirm(telegramMessage); // Replace with appropriate Telegram API call if needed
+
+    if (userResponse) {
+        // Logic to show inventory, e.g., switch to inventory tab
+        showTab('tab3'); // Assuming 'tab3' is your inventory tab ID
+    }
+}
+
+// document.addEventListener('visibilitychange', () => {
+//     if (document.hidden) {
+//         clearInterval(rechargeIntervalId); // Pause recharge
+//     } else {
+//         startRechargeTimer(); // Restart recharge
+//     }
+// });
