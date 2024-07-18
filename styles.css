@@ -427,3 +427,27 @@ footer {
     margin-top: 2px; /* Space above the status text */
 }
 
+.equipped-item {
+    border: 2px solid #ccc; /* Default border color */
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    width: 150px; /* Set a fixed width for items */
+}
+
+.equipped-item-image {
+    max-width: 100%; /* Ensure image fits within the container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure the image behaves like a block element */
+    margin: 0 auto; /* Center the image */
+}
+
+.equipped-item-title {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.equipped-item-stats {
+    font-size: 0.9em; /* Slightly smaller font for stats */
+    color: #666; /* Gray color for stats */
+}

@@ -348,6 +348,17 @@ function displayEquippedItems() {
         `;
 
         equippedItemsContainer.appendChild(itemElement);
+
+        // Extract the numeric value from item.stats
+        const statValue = parseInt(item.stats.match(/\+(\d+)/)[1]); // Extract the number from "+25 gold per hour"
+
+        // Increment the coin count every hour based on the equipped item's stat
+        setInterval(() => {
+            count += statValue;
+            localStorage.setItem('kimchiCounter', JSON.stringify(count));
+            // Update your UI to show the new coin count if needed
+        }, 1000); // 3600000 ms = 1 hour
+
     });
 }
 
